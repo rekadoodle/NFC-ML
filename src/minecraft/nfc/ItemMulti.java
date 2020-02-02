@@ -1,11 +1,9 @@
 package nfc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.src.*;
-import net.minecraft.src.mod_NFC.PropsItemFood;
 import net.minecraft.src.forge.ITextureProvider;
 
 public class ItemMulti extends Item implements ITextureProvider  {
@@ -46,8 +44,8 @@ public class ItemMulti extends Item implements ITextureProvider  {
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {
 		PropsItem itemprop = propsList.get(itemstack.getItemDamage());
-		if(itemprop instanceof PropsItemFood) {
-			((PropsItemFood)itemprop).onItemRightClick(itemstack, world, entityplayer);
+		if(itemprop instanceof PropsItem.Food) {
+			((PropsItem.Food)itemprop).onItemRightClick(itemstack, world, entityplayer);
 		}
         return itemstack;
     }

@@ -20,8 +20,8 @@ public class BlockMulti extends Block implements ITextureProvider, ISpecialResis
 				blockprops.ID_DROPPED = blockprops.block_id;
 			}
 			this.propsList.add(blockprops);
-			if(blockprops instanceof mod_NFC.PropsBlockOre) {
-				((mod_NFC.PropsBlockOre) blockprops).setHarvestLevel();
+			if(blockprops instanceof PropsBlock.Ore) {
+				((PropsBlock.Ore) blockprops).setHarvestLevel();
 			}
 			else if(material == Material.rock) {
 				MinecraftForge.setBlockHarvestLevel(this, blockprops.block_metadata, "pickaxe", 0);

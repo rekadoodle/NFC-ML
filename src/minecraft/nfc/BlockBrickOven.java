@@ -14,12 +14,23 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 		super(id, isActive);
 		this.blockIndexInTexture = 33;
 		this.FRONT_TEXTURE_INDEX = frontTextureIndex;
+		this.setHardness(5F);
+		this.setStepSound(Block.soundStoneFootstep);
+		this.setBlockName(new StringBuilder().append("nfc.brickoven").append(isActive ? "active" : "inactive").toString());
+		this.disableNeighborNotifyOnMetadataChange();
+		if(isActive) {
+			this.setLightValue(0.875F);
+			ModLoader.AddName(this, "Active Brick Oven");
+		}
+		else {
+			ModLoader.AddName(this, "Brick Oven");
+		}
 		ModLoader.RegisterBlock(this);
 	}
 
 	@Override
 	public int idDropped(int i, Random random) {
-		return mod_NFC.BrickOvenIdle.blockID;
+		return mod_NFC.BRICKOVEN_IDLE.blockID;
 	}
 
 	@Override
@@ -52,9 +63,9 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 		TileEntity tileentity = world.getBlockTileEntity(i, j, k);
 		setKeepFurnaceInventory(true);
 		if (flag) {
-			world.setBlockWithNotify(i, j, k, mod_NFC.BrickOvenActive.blockID);
+			world.setBlockWithNotify(i, j, k, mod_NFC.BRICKOVEN_ACTIVE.blockID);
 		} else {
-			world.setBlockWithNotify(i, j, k, mod_NFC.BrickOvenIdle.blockID);
+			world.setBlockWithNotify(i, j, k, mod_NFC.BRICKOVEN_IDLE.blockID);
 		}
 		setKeepFurnaceInventory(false);
 		world.setBlockMetadataWithNotify(i, j, k, l);

@@ -3,11 +3,6 @@ package net.minecraft.src;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.src.forge.ForgeHooksClient;
-import net.minecraft.src.forge.IHighlightHandler;
-import net.minecraft.src.forge.MinecraftForge;
 import net.minecraft.src.forge.MinecraftForgeClient;
 import nfc.*;
 
@@ -23,54 +18,7 @@ public class mod_NFC extends BaseMod {
 		ModLoader.RegisterTileEntity(TileEntityBlock.class, "nfc.ore");
 		ModLoader.RegisterTileEntity(TileEntitySlab.class, "nfc.slab");
 		ModLoader.RegisterTileEntity(TileEntityBrickOven.class, "nfc.brickoven");
-		MinecraftForgeClient.registerHighlightHandler(new IHighlightHandler() {
-
-			@Override
-			public boolean onBlockHighlight(RenderGlobal renderglobal, EntityPlayer entityplayer, MovingObjectPosition movingobjectposition, int i, ItemStack itemstack, float f) {
-				if(true) return false;
-				if(itemstack != null && itemstack.itemID == mod_NFC.slab.blockID && mod_NFC.slab.isStairs(itemstack.getItemDamage())) {
-					renderglobal.drawBlockBreaking(entityplayer, movingobjectposition, 0, entityplayer.inventory.getCurrentItem(), f);
-			        renderglobal.drawSelectionBox(entityplayer, movingobjectposition, 0, entityplayer.inventory.getCurrentItem(), f);
-					if(i == 0 && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
-			        {
-			            int j = renderglobal.worldObj.getBlockId(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
-			            if(j > 0) {
-			            	Block block = Block.blocksList[j];
-			            	block.setBlockBoundsBasedOnState(renderglobal.worldObj, movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
-			            	if(block.minY < 0.5D && block.maxY > 0.5D)
-				            {
-					            GL11.glEnable(3042 /*GL_BLEND*/);
-					            GL11.glLineWidth(5.0F);
-					            GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
-					            GL11.glDepthMask(false);
-					            float f1 = 0.03F;
-				                double d = entityplayer.lastTickPosX + (entityplayer.posX - entityplayer.lastTickPosX) * (double)f;
-				                double d1 = entityplayer.lastTickPosY + (entityplayer.posY - entityplayer.lastTickPosY) * (double)f;
-				                double d2 = entityplayer.lastTickPosZ + (entityplayer.posZ - entityplayer.lastTickPosZ) * (double)f;
-				                drawOutlinedBoundingBox(AxisAlignedBB.getBoundingBoxFromPool(movingobjectposition.blockX + block.minY, movingobjectposition.blockY + 0.5D, movingobjectposition.blockZ + block.minZ, movingobjectposition.blockX + block.maxX, movingobjectposition.blockY + 0.5D, movingobjectposition.blockZ + block.maxZ).expand(f1, f1, f1).getOffsetBoundingBox(-d, -d1, -d2));
-					            GL11.glDepthMask(true);
-					            GL11.glEnable(3553 /*GL_TEXTURE_2D*/);
-					            GL11.glDisable(3042 /*GL_BLEND*/);
-				            }
-			            }
-			        }
-					return true;
-				}
-				return false;
-			}
-
-			private void drawOutlinedBoundingBox(AxisAlignedBB axisalignedbb) {
-				Tessellator tessellator = Tessellator.instance;
-		        tessellator.startDrawing(3);
-		        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-		        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ);
-		        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ);
-		        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ);
-		        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-		        tessellator.draw();
-			}
-			
-		});
+		MinecraftForgeClient.registerHighlightHandler(new StairPlacementHighlighter());
 		
 		slab_stair = ModLoader.getUniqueBlockModelID(this, true);
 		render_ID  = ModLoader.getUniqueBlockModelID(this, true);
@@ -115,8 +63,6 @@ public class mod_NFC extends BaseMod {
 				"XX",
 				Character.valueOf('X'), Block.stone
 		});
-		
-		ModLoader.AddShapelessRecipe(new ItemStack(BrickOvenIdle), new Object[] {Block.dirt});
 	}
 	
 	private final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput");
@@ -177,8 +123,8 @@ public class mod_NFC extends BaseMod {
 	//diamond
 	public static final PropsItemToolMaterial OSMIUM = new PropsItemToolMaterial("Osmium", 5, 5000, 5.0F, 20, 166);
 	
-	public static final PropsItemFood COOKED_EGG = new PropsItemFood("Cooked Egg", 4, 167);
-	public static final PropsItemFood CHEESE = new PropsItemFood("Cheese", 5, 168);
+	public static final PropsItem.Food COOKED_EGG = new PropsItem.Food("Cooked Egg", 4, 167);
+	public static final PropsItem.Food CHEESE = new PropsItem.Food("Cheese", 5, 168);
 
 	public static int render_ID;
 	public int slab_stair;
@@ -191,28 +137,28 @@ public class mod_NFC extends BaseMod {
 	
 	public static ItemMulti item = new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE);
 	
-	public static final PropsBlockOre ORE_COPPER = new PropsBlockOre(COPPER, 3.0F, 0);
-	public static final PropsBlockOre ORE_TIN = new PropsBlockOre(TIN, 3.0F, 1);
-	public static final PropsBlockOre ORE_ZINC = new PropsBlockOre(ZINC, 3.0F, 2);
-	public static final PropsBlockOre ORE_ALUMINUM = new PropsBlockOre(ALUMINUM, 3.0F, 3);
-	public static final PropsBlockOre ORE_LEAD = new PropsBlockOre(LEAD, 3.0F, 4);
-	public static final PropsBlockOre ORE_BISMUTH = new PropsBlockOre(BISMUTH, 3.0F, 5);
-	public static final PropsBlockOre ORE_BORON = new PropsBlockOre(BORON, 3.5F, 6);
-	public static final PropsBlockOre ORE_SILVER = new PropsBlockOre(SILVER, 3.5F, 7);
-	public static final PropsBlockOre ORE_CHROME = new PropsBlockOre(CHROME, 4.0F, 8);
-	public static final PropsBlockOre ORE_NICKEL = new PropsBlockOre(NICKEL, 3.5F, 9);
-	public static final PropsBlockOre ORE_PLATINUM = new PropsBlockOre(PLATINUM, 3.5F, 10);
-	public static final PropsBlockOre ORE_TUNGSTEN = new PropsBlockOre(TUNGSTEN, 6.0F, 11);
-	public static final PropsBlockOre ORE_SILICON = new PropsBlockOre(SILICON, 4.0F, 12);
-	public static final PropsBlockOre ORE_COBALT = new PropsBlockOre(COBALT, 4.0F, 13);
-	public static final PropsBlockOre ORE_MAGNETITE = new PropsBlockOre("Magnetite", 4.0F, 14);
-	public static final PropsBlockOre ORE_TITANIUM = new PropsBlockOre(TITANIUM, 6.0F, 15);
-	public static final PropsBlockOre ORE_ANTHRACITE = new PropsBlockOre("Anthracite", 4.0F/*, item.anthracite.id*/, 16);
-	public static final PropsBlockOre ORE_RUBY = new PropsBlockOre(RUBY, 8.0F, RUBY.item_id, RUBY.item_metadata, 17);
-	public static final PropsBlockOre ORE_SAPHIRE = new PropsBlockOre(SAPHIRE, 8.0F, SAPHIRE.item_id, SAPHIRE.item_metadata, 18);
-	public static final PropsBlockOre ORE_EMERALD = new PropsBlockOre(EMERALD, 8.0F, EMERALD.item_id, EMERALD.item_metadata, 19);
-	public static final PropsBlockOre ORE_URANINITE = new PropsBlockOre("Uraninite", 8.0F, 20);
-	public static final PropsBlockOre ORE_OSMIUM = new PropsBlockOre(OSMIUM, 10.0F, 21);
+	public static final PropsBlock.Ore ORE_COPPER = new PropsBlock.Ore(COPPER, 3.0F, 0);
+	public static final PropsBlock.Ore ORE_TIN = new PropsBlock.Ore(TIN, 3.0F, 1);
+	public static final PropsBlock.Ore ORE_ZINC = new PropsBlock.Ore(ZINC, 3.0F, 2);
+	public static final PropsBlock.Ore ORE_ALUMINUM = new PropsBlock.Ore(ALUMINUM, 3.0F, 3);
+	public static final PropsBlock.Ore ORE_LEAD = new PropsBlock.Ore(LEAD, 3.0F, 4);
+	public static final PropsBlock.Ore ORE_BISMUTH = new PropsBlock.Ore(BISMUTH, 3.0F, 5);
+	public static final PropsBlock.Ore ORE_BORON = new PropsBlock.Ore(BORON, 3.5F, 6);
+	public static final PropsBlock.Ore ORE_SILVER = new PropsBlock.Ore(SILVER, 3.5F, 7);
+	public static final PropsBlock.Ore ORE_CHROME = new PropsBlock.Ore(CHROME, 4.0F, 8);
+	public static final PropsBlock.Ore ORE_NICKEL = new PropsBlock.Ore(NICKEL, 3.5F, 9);
+	public static final PropsBlock.Ore ORE_PLATINUM = new PropsBlock.Ore(PLATINUM, 3.5F, 10);
+	public static final PropsBlock.Ore ORE_TUNGSTEN = new PropsBlock.Ore(TUNGSTEN, 6.0F, 11);
+	public static final PropsBlock.Ore ORE_SILICON = new PropsBlock.Ore(SILICON, 4.0F, 12);
+	public static final PropsBlock.Ore ORE_COBALT = new PropsBlock.Ore(COBALT, 4.0F, 13);
+	public static final PropsBlock.Ore ORE_MAGNETITE = new PropsBlock.Ore("Magnetite", 4.0F, 14);
+	public static final PropsBlock.Ore ORE_TITANIUM = new PropsBlock.Ore(TITANIUM, 6.0F, 15);
+	public static final PropsBlock.Ore ORE_ANTHRACITE = new PropsBlock.Ore("Anthracite", 4.0F/*, item.anthracite.id*/, 16);
+	public static final PropsBlock.Ore ORE_RUBY = new PropsBlock.Ore(RUBY, 8.0F, RUBY.item_id, RUBY.item_metadata, 17);
+	public static final PropsBlock.Ore ORE_SAPHIRE = new PropsBlock.Ore(SAPHIRE, 8.0F, SAPHIRE.item_id, SAPHIRE.item_metadata, 18);
+	public static final PropsBlock.Ore ORE_EMERALD = new PropsBlock.Ore(EMERALD, 8.0F, EMERALD.item_id, EMERALD.item_metadata, 19);
+	public static final PropsBlock.Ore ORE_URANINITE = new PropsBlock.Ore("Uraninite", 8.0F, 20);
+	public static final PropsBlock.Ore ORE_OSMIUM = new PropsBlock.Ore(OSMIUM, 10.0F, 21);
 	public static final PropsBlock STONE_BLOCK = new PropsBlock("Stone Block", 1.0F, 10.0F, 22);
 	public static final PropsBlock STONE_BLOCK_OFFSET_XY = new PropsBlock("Stone Block Offset:XY", 1.0F, 10.0F, 23);
 	public static final PropsBlock STONE_BLOCK_OFFSET_X = new PropsBlock("Stone Block Offset:X", 1.0F, 10.0F, 24);
@@ -246,53 +192,9 @@ public class mod_NFC extends BaseMod {
 	private final BlockMultiCustomRender slab5;
 	private final BlockMultiTexture glass;
 	
-	public static final Block BrickOvenIdle = (new BlockBrickOven(230, false, 32)).setHardness(5F).setStepSound(Block.soundStoneFootstep).setBlockName("Brick Oven").disableNeighborNotifyOnMetadataChange();
-	public static final Block BrickOvenActive = (new BlockBrickOven(231, true, 34)).setHardness(5F).setStepSound(Block.soundStoneFootstep).setBlockName("Brick Oven").setLightValue(0.875F).disableNeighborNotifyOnMetadataChange();
+	public static final Block BRICKOVEN_IDLE = new BlockBrickOven(230, false, 32);
+	public static final Block BRICKOVEN_ACTIVE = new BlockBrickOven(231, true, 34);
 	
-	public static class PropsItemFood extends PropsItem {
-		
-		public final int HEAL_AMOUNT;
-
-		public PropsItemFood(String name, int healAmount, int textureIndex) {
-			super(name, textureIndex);
-			this.HEAL_AMOUNT = healAmount;
-		}
-		
-		public void onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-	    {
-	        itemstack.stackSize--;
-	        entityplayer.heal(HEAL_AMOUNT);
-	    }
-	}
 	
-	public static class PropsBlockOre extends PropsBlock {
-		private final int TIER;
-		
-		public PropsBlockOre(PropsItemToolMaterial material, float hardness, int textureIndex) {
-			this(material.NAME, material.TIER - 1, hardness, 0, 0, textureIndex);
-		}
-
-		public PropsBlockOre(PropsItemToolMaterial material, float hardness, int idDropped, int damageDropped, int textureIndex) {
-			this(material.NAME, material.TIER - 1, hardness, idDropped, damageDropped, textureIndex);
-		}
-		
-		public PropsBlockOre(String name, float hardness, int textureIndex) {
-			this(name, 0, hardness, 0, 0, textureIndex);
-		}
-		
-		public PropsBlockOre(String name, int tier, float hardness, int idDropped, int damageDropped, int textureIndex) {
-			super(name, hardness, 500.0F, idDropped, damageDropped, textureIndex);
-			this.TIER = tier;
-			this.addLocalisation(new StringBuilder().append(name).append(' ').append("Ore").toString());
-		}
-		
-		public void setHarvestLevel() {
-			MinecraftForge.setBlockHarvestLevel(Block.blocksList[this.block_id], this.block_metadata, "pickaxe", this.TIER);
-		}
-		
-		@Override
-		public String getNamePrefix() {
-			return new StringBuilder().append(super.getNamePrefix()).append("ore.").toString();
-		}
-	}
+	
 }
