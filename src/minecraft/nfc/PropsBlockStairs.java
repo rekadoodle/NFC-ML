@@ -3,6 +3,7 @@ package nfc;
 import java.util.List;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
@@ -92,12 +93,9 @@ public class PropsBlockStairs extends PropsBlockCustomRenderMulti {
 
 	@Override
 	public void onBlockPlaced(World world, int x, int y, int z, int side, BlockMultiCustomRender block) {
-		int[] adjacentCoords = this.adjacentBlockCoords(world, x, y, z, side);
-		int x2 = adjacentCoords[0];
-		int y2 = adjacentCoords[1];
-		int z2 = adjacentCoords[2];
-        if(block == Block.blocksList[world.getBlockId(x2, y2, z2)]) {
-        	int metadata = world.getBlockMetadata(x2, y2, z2);
+		ChunkCoordinates adjacentCoords = this.adjacentBlockCoords(x, y, z, side);
+        if(block == Block.blocksList[world.getBlockId(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z)]) {
+        	int metadata = world.getBlockMetadata(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z);
         	if(metadata >= this.block_metadata && metadata - this.block_metadata < this.IDS_USED) {
         		int subMetadata = metadata - this.block_metadata;
         		System.out.println((subMetadata % 4) + " " + this.getOppositeSide(side) + " " + side);

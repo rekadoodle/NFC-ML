@@ -18,6 +18,7 @@ public class StairPlacementHighlighter implements IHighlightHandler {
 
 	@Override
 	public boolean onBlockHighlight(RenderGlobal renderglobal, EntityPlayer entityplayer, MovingObjectPosition movingobjectposition, int i, ItemStack itemstack, float f) {
+		if(true) return false;
 		if(itemstack != null && itemstack.itemID == mod_NFC.slab.blockID && mod_NFC.slab.isStairs(itemstack.getItemDamage())) {
 			renderglobal.drawBlockBreaking(entityplayer, movingobjectposition, 0, entityplayer.inventory.getCurrentItem(), f);
 	        renderglobal.drawSelectionBox(entityplayer, movingobjectposition, 0, entityplayer.inventory.getCurrentItem(), f);

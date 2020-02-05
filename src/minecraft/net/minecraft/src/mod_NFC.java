@@ -170,7 +170,7 @@ public class mod_NFC extends BaseMod {
 	private static final BlockMulti stone2 = new BlockMulti(blockID + 1, Material.rock, ORE_ANTHRACITE, ORE_RUBY, ORE_SAPHIRE, ORE_EMERALD, ORE_OSMIUM, STONE_BLOCK, STONE_BLOCK_OFFSET_XY,  STONE_BLOCK_OFFSET_X, STONE_BLOCK_OFFSET_Y, STONE_BRICK, STONE_BRICK_SMALL);
 	
 	public static final PropsBlockDummyCustom STONE_PLATED = new PropsBlockDummyCustom(new PropsBlockTexture("Plated Stone", "/terrain.png", 1.0F, 10.0F, 6));
-	public static final PropsBlockSlab STONE_SLAB = new PropsBlockSlab("Stone", Block.stairDouble);
+	public static final PropsBlockSlabRotatedTexture STONE_SLAB = new PropsBlockSlabRotatedTexture("Stone", Block.stairDouble, 0);
 	public static final PropsBlockStairs COBBLE_STAIRS = new PropsBlockStairs("Stone", Block.cobblestone);
 	public static final PropsBlockSlab PLANKS_SLAB = new PropsBlockSlab("Wood", Block.planks);
 	public static final PropsBlockStairs PLANKS_STAIRS = new PropsBlockStairs("Wood", Block.planks);

@@ -3,6 +3,7 @@ package nfc;
 import java.util.List;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.World;
 
@@ -17,7 +18,7 @@ public abstract class PropsBlockCustomRenderMulti extends PropsBlockTexture {
 		this.RENDERS = renders;
 	}
 	
-	public int[] adjacentBlockCoords(World world, int x, int y, int z, int side) {
+	public ChunkCoordinates adjacentBlockCoords(int x, int y, int z, int side) {
 		if(side == 0)
         {
             y++;
@@ -42,7 +43,7 @@ public abstract class PropsBlockCustomRenderMulti extends PropsBlockTexture {
         {
             x--;
         }
-        return new int[] {x, y, z};
+        return new ChunkCoordinates(x, y, z);
 	}
 	
 	public abstract void setBlockBounds(Block block, int metadata, int renders);

@@ -1,6 +1,7 @@
 package nfc;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
@@ -38,7 +39,8 @@ public class BlockMultiCustomRender extends BlockMultiTexture {
 				blockprops.DAMAGE_DROPPED = blockprops.block_metadata;
 			}
 		}
-		
+		//Shows remaining metadatas for this block on launch
+		//System.out.println("block with id " + id + " has " + (16 - correctId) + " metadatas remaining");
 		if(material == Material.rock) {
 			MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 0);
 		}
@@ -58,10 +60,57 @@ public class BlockMultiCustomRender extends BlockMultiTexture {
 	public void renderBlockWorld(RenderBlocks renderblocks, int metadata, int x, int y, int z) {
 		PropsBlockCustomRenderMulti blockprops = this.getBlockProps(metadata);
 		this.preRender(blockprops, metadata, renderblocks);
+		if(blockprops instanceof PropsBlockSlabRotatedTexture) {
+			int subMetadata = metadata - blockprops.block_metadata;
+			if(subMetadata > 5) {
+				subMetadata -= 6;
+				subMetadata *= 2;
+			}
+			switch(subMetadata) {
+			case 3:
+			case 2:
+				renderblocks.field_31085_i = 1;
+				renderblocks.field_31084_j = 2;
+				renderblocks.field_31083_k = 0;
+				renderblocks.field_31082_l = 0;
+				break;
+			/* These 2 commented out cases are used for flipping the rotation based on the side that the block is placed on
+			 * NFC only uses 3 possible texture rotations so I'm sticking with that for now (normal, z-rotated 90 and x-rotated 90)
+			 * but commenting out these allows for z-rotated 270 and x-rotated 270. More metadatas would be required for the double slabs
+			 * to use these extra rotations.
+			case 2:
+				renderblocks.field_31085_i = 2;
+				renderblocks.field_31084_j = 1;
+				renderblocks.field_31083_k = 3;
+				renderblocks.field_31082_l = 3;
+				break;
+			*/
+			case 5:
+			case 4:
+				renderblocks.field_31087_g = 1;
+				renderblocks.field_31086_h = 2;
+				renderblocks.field_31083_k = 2;
+				renderblocks.field_31082_l = 1;
+				break;
+			/*
+			case 4:
+				renderblocks.field_31087_g = 2;
+				renderblocks.field_31086_h = 1;
+				renderblocks.field_31083_k = 1;
+				renderblocks.field_31082_l = 2;
+			*/
+			}
+		}
 		for(int i = 0; i < blockprops.RENDERS; i++) {
 			blockprops.setBlockBounds(this, metadata - blockprops.block_metadata, i);
 			renderblocks.renderStandardBlock(this, x, y, z);
 		}
+		renderblocks.field_31087_g = 0;
+		renderblocks.field_31086_h = 0;
+		renderblocks.field_31085_i = 0;
+		renderblocks.field_31084_j = 0;
+		renderblocks.field_31083_k = 0;
+		renderblocks.field_31082_l = 0;
 		this.postRender();
 	}
 	
@@ -93,6 +142,16 @@ public class BlockMultiCustomRender extends BlockMultiTexture {
 	public boolean isOpaqueCube()
     {
         return false;
+    }
+	
+	@Override
+	public int quantityDropped(int metadata, Random random)
+    {
+		PropsBlock blockprops = this.getBlockProps(metadata);
+		if(blockprops instanceof PropsBlockSlabRotatedTexture) {
+			return metadata - blockprops.block_metadata > 5 ? 2 : 1;
+		}
+        return 1;
     }
 	
 	@Override

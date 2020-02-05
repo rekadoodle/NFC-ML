@@ -3,6 +3,7 @@ package nfc;
 import java.util.List;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -12,14 +13,17 @@ public class PropsBlockSlab extends PropsBlockCustomRenderMulti {
 
 	public Block block;
 	public int blockmetadata;
-	public boolean rotateTexture;
 	
 	public PropsBlockSlab(String name, Block block) {
 		this(name, block, 0);
 	}
 	
 	public PropsBlockSlab(String name, Block block, int metadata) {
-		super(name, 6, 1, PropsBlockTexture.getTextureFile(block), PropsBlockTexture.STANDARD_BLOCK, block.getHardness(metadata), block.getExplosionResistance(null), 0, 0, block.getBlockTextureFromSideAndMetadata(0, metadata));
+		this(name, block, metadata, 6);
+	}
+	
+	public PropsBlockSlab(String name, Block block, int metadata, int idsUsed) {
+		super(name, idsUsed, 1, PropsBlockTexture.getTextureFile(block), PropsBlockTexture.STANDARD_BLOCK, block.getHardness(metadata), block.getExplosionResistance(null), 0, 0, block.getBlockTextureFromSideAndMetadata(0, metadata));
 		this.block = block;
 		this.blockmetadata = metadata;
 		this.addLocalisation(new StringBuilder().append(this.NAME).append(' ').append("Slab").toString());
@@ -27,16 +31,14 @@ public class PropsBlockSlab extends PropsBlockCustomRenderMulti {
 	
 	@Override
 	public void onBlockPlaced(World world, int x, int y, int z, int side, BlockMultiCustomRender block) {
-		int[] adjacentCoords = this.adjacentBlockCoords(world, x, y, z, side);
-		int x2 = adjacentCoords[0];
-		int y2 = adjacentCoords[1];
-		int z2 = adjacentCoords[2];
-        if(block == Block.blocksList[world.getBlockId(x2, y2, z2)]) {
-        	int metadata = world.getBlockMetadata(x2, y2, z2);
+		ChunkCoordinates adjacentCoords = this.adjacentBlockCoords(x, y, z, side);
+        if(this.block_id == world.getBlockId(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z)) {
+        	System.out.println("AYO");
+        	int metadata = world.getBlockMetadata(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z);
         	if(metadata >= this.block_metadata && metadata - this.block_metadata < this.IDS_USED) {
         		int subMetadata = metadata - this.block_metadata;
             	if(subMetadata == this.getOppositeSide(side)) {
-            		world.setBlockAndMetadata(x2, y2, z2, this.block.blockID, this.blockmetadata);
+            		world.setBlockAndMetadata(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z, this.block.blockID, this.blockmetadata);
             		world.setBlock(x, y, z, 0);
             	}
             	else if(subMetadata != side) {
@@ -86,42 +88,7 @@ public class PropsBlockSlab extends PropsBlockCustomRenderMulti {
 	
 	@Override
 	public int getTextureIndex(int side, int metadata) {
-		int newSide = side;
-		if(rotateTexture) {
-			switch(metadata) {
-			case 0:
-				newSide = side;
-				break;
-			case 1:
-				switch(side) {
-				case 0:
-					newSide = 1; break;
-				case 1:
-					newSide = 0; break;
-				default:
-					newSide = side;
-				}
-				break;
-			default:
-				switch(side) {
-				case 0:
-					newSide = 2; break;
-				case 1:
-					newSide = 3; break;
-				default:
-					if(side == metadata){
-						newSide = 0;
-					}
-					else if(getOppositeSide(side) == metadata){
-						newSide = 1;
-					}
-					else {
-						newSide = 2;
-					}
-				}
-			}
-		}
-		return block.getBlockTextureFromSideAndMetadata(newSide, blockmetadata);
+		return block.getBlockTextureFromSideAndMetadata(side, blockmetadata);
 	}
 
 	@Override

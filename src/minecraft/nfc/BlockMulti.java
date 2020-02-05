@@ -63,7 +63,7 @@ public class BlockMulti extends Block implements ITextureProvider, ISpecialResis
             return;
         }
         PropsBlock blockprops = this.getBlockProps(metadata);
-        int quantityDropped = quantityDropped(blockprops, world.rand);
+        int quantityDropped = quantityDropped(metadata, world.rand);
         
         for(int i = 0; i < quantityDropped; i++)
         {
@@ -77,6 +77,11 @@ public class BlockMulti extends Block implements ITextureProvider, ISpecialResis
                 dropBlockAsItem_do(world, x, y, z, new ItemStack(id, 1, damageDropped(blockprops)));
             }
         }
+    }
+	
+	public int quantityDropped(int metadata, Random random)
+    {
+        return this.quantityDropped(this.getBlockProps(metadata), random);
     }
 	
 	public int quantityDropped(PropsBlock blockprops, Random random)
