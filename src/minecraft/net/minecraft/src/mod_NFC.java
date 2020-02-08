@@ -18,6 +18,7 @@ public class mod_NFC extends BaseMod {
 		ModLoader.RegisterTileEntity(TileEntityBlock.class, "nfc.ore");
 		ModLoader.RegisterTileEntity(TileEntitySlab.class, "nfc.slab");
 		ModLoader.RegisterTileEntity(TileEntityBrickOven.class, "nfc.brickoven");
+		ModLoader.RegisterTileEntity(TileEntityFurnaceMetadataFix.class, "nfc.furnacefixed");
 		MinecraftForgeClient.registerHighlightHandler(new StairPlacementHighlighter());
 		
 		slab_stair = ModLoader.getUniqueBlockModelID(this, true);
@@ -63,6 +64,26 @@ public class mod_NFC extends BaseMod {
 				"XX",
 				Character.valueOf('X'), Block.stone
 		});
+		
+		//Override vanilla furnace to use metadata smelt accepting tile entity
+		Utils.replaceBlock(new BlockFurnaceMetadataFix(Block.stoneOvenIdle, false), "stoneOvenIdle", "aC");
+		Utils.replaceBlock(new BlockFurnaceMetadataFix(Block.stoneOvenActive, true), "stoneOvenActive", "aD");
+		
+		FurnaceManager.instance.addSmelting(ORE_ALUMINUM.getItemStack(), ALUMINUM.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_COPPER.getItemStack(), COPPER.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_TIN.getItemStack(), TIN.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_BISMUTH.getItemStack(), BISMUTH.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_ZINC.getItemStack(), ZINC.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_NICKEL.getItemStack(), NICKEL.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_COBALT.getItemStack(), COBALT.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_MAGNETITE.getItemStack(), MAGNET.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_SILVER.getItemStack(), SILVER.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_LEAD.getItemStack(), LEAD.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_SILICON.getItemStack(), SILICON.getItemStack());
+		FurnaceManager.instance.addSmelting(new ItemStack(Item.egg), COOKED_EGG.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_URANINITE.getItemStack(), URANIUM.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_PLATINUM.getItemStack(), PLATINUM.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_BORON.getItemStack(), BORON.getItemStack());
 	}
 	
 	private final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput");
@@ -109,22 +130,25 @@ public class mod_NFC extends BaseMod {
 	public static final PropsItemToolMaterial BRONZE = new PropsItemToolMaterial("Bronze", 2, 125, 5.0F, 4, 152);
 	public static final PropsItemToolMaterial NICKEL = new PropsItemToolMaterial("Nickel", 2, 85, 7.0F, 4, 153);
 	public static final PropsItemToolMaterial PLATINUM = new PropsItemToolMaterial("Platinum", 2, 215, 3.5F, 4, 154);
-	public static final PropsItemToolMaterial SILVER = new PropsItemToolMaterial("Silver", 2, 260, 3.0F, 4, 156);
-	public static final PropsItemToolMaterial CHROME = new PropsItemToolMaterial("Chrome", 3, 200, 8.0F, 6, 157);
-	public static final PropsItemToolMaterial COBALT = new PropsItemToolMaterial("Cobalt", 3, 700, 4.0F, 6, 158);
+	public static final PropsItemToolMaterial SILVER = new PropsItemToolMaterial("Silver", 2, 260, 3.0F, 4, 155);
+	public static final PropsItemToolMaterial CHROME = new PropsItemToolMaterial("Chrome", 3, 200, 8.0F, 6, 156);
+	public static final PropsItemToolMaterial COBALT = new PropsItemToolMaterial("Cobalt", 3, 700, 4.0F, 6, 157);
 	//iron
-	public static final PropsItemToolMaterial SILICON = new PropsItemToolMaterial("Silicon", 3, 150, 10.0F, 6, 159);
-	public static final PropsItemToolMaterial STEEL = new PropsItemToolMaterial("Steel", 4, 700, 8.0F, 10, 160);
-	public static final PropsItemToolMaterial TITANIUM = new PropsItemToolMaterial("Titanium", 4, 350, 14.0F, 10, 161);
-	public static final PropsItemToolMaterial TUNGSTEN = new PropsItemToolMaterial("Tungsten", 4, 1100, 6.0F, 10, 162);
-	public static final PropsItemToolMaterial RUBY = new PropsItemToolMaterial("Ruby", 4, 1000, 10.0F, 20, 163);
-	public static final PropsItemToolMaterial SAPHIRE = new PropsItemToolMaterial("Saphire", 4, 1000, 10.0F, 20, 164);
-	public static final PropsItemToolMaterial EMERALD = new PropsItemToolMaterial("Emerald", 4, 1000, 10.0F, 20, 165);
+	public static final PropsItemToolMaterial SILICON = new PropsItemToolMaterial("Silicon", 3, 150, 10.0F, 6, 158);
+	public static final PropsItemToolMaterial STEEL = new PropsItemToolMaterial("Steel", 4, 700, 8.0F, 10, 159);
+	public static final PropsItemToolMaterial TITANIUM = new PropsItemToolMaterial("Titanium", 4, 350, 14.0F, 10, 160);
+	public static final PropsItemToolMaterial TUNGSTEN = new PropsItemToolMaterial("Tungsten", 4, 1100, 6.0F, 10, 161);
+	public static final PropsItemToolMaterial RUBY = new PropsItemToolMaterial("Ruby", 4, 1000, 10.0F, 20, 162);
+	public static final PropsItemToolMaterial SAPHIRE = new PropsItemToolMaterial("Saphire", 4, 1000, 10.0F, 20, 163);
+	public static final PropsItemToolMaterial EMERALD = new PropsItemToolMaterial("Emerald", 4, 1000, 10.0F, 20, 164);
 	//diamond
-	public static final PropsItemToolMaterial OSMIUM = new PropsItemToolMaterial("Osmium", 5, 5000, 5.0F, 20, 166);
+	public static final PropsItemToolMaterial OSMIUM = new PropsItemToolMaterial("Osmium", 5, 5000, 5.0F, 20, 165);
 	
-	public static final PropsItem.Food COOKED_EGG = new PropsItem.Food("Cooked Egg", 4, 167);
-	public static final PropsItem.Food CHEESE = new PropsItem.Food("Cheese", 5, 168);
+	public static final PropsItem.Food COOKED_EGG = new PropsItem.Food("Cooked Egg", 4, 166);
+	public static final PropsItem.Food CHEESE = new PropsItem.Food("Cheese", 5, 167);
+	
+	public static final PropsItem MAGNET = new PropsItem("Magnet", 168);
+	public static final PropsItem URANIUM = new PropsItem("Uranium", 169);
 
 	public static int render_ID;
 	public int slab_stair;
@@ -135,7 +159,7 @@ public class mod_NFC extends BaseMod {
 	static int id = itemID;
 	static int ingotID = 0;
 	
-	public static ItemMulti item = new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE);
+	public static ItemMulti item = new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE, MAGNET, URANIUM);
 	
 	public static final PropsBlock.Ore ORE_COPPER = new PropsBlock.Ore(COPPER, 3.0F, 0);
 	public static final PropsBlock.Ore ORE_TIN = new PropsBlock.Ore(TIN, 3.0F, 1);

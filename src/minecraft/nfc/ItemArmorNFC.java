@@ -14,7 +14,7 @@ public class ItemArmorNFC extends ItemArmor implements ITextureProvider, IArmorT
 		super(id, 0, -1, armourType);
 		this.material = material;
 		this.setMaxDamage(maxDamageMaterialArray[material.TIER - 1] * maxDamageArray[armourType] / 100);
-		this.setIconCoord(material.item_metadata % 16, armourType + 5);
+		this.setIconCoord(material.getTextureIndex() % 16, armourType + 5);
 		String name;
 		String niceName;
 		switch(armourType) {

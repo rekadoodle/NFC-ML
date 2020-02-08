@@ -13,7 +13,7 @@ public class ItemSwordNFC extends ItemSword implements ITextureProvider {
 		this.material = material;
 		this.setMaxDamage((material.TIER + 2)*(material.TIER + 2)*10);
         this.weaponDamage = 4 + material.DMG_VS_ENTITY * 2;
-        this.setIconCoord(material.item_metadata % 16, 3);
+        this.setIconCoord(material.getTextureIndex() % 16, 3);
         this.setItemName(new StringBuilder().append(material.getName()).append(".sword").toString());
         ModLoader.AddName(this, new StringBuilder().append(material.NAME).append(' ').append("Sword").toString());
 		
