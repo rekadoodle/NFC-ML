@@ -40,10 +40,11 @@ Follow this if you just want to play the mod. There are no releases yet, but you
    1. Download v4.3 of the [Mod Coder Pack](https://minecraft.gamepedia.com/Programs_and_editors/Mod_Coder_Pack#Downloads)
    2. Open /runtime/decompile.py with a text editor of your choice and remove line 15 `commands.checkupdates()`
    3. Follow the steps within /docs/README-MCP.TXT
-   4. Download [Forge Source](https://mcarchive.net/mods/minecraftforge?gvsn=b1.7.3) and follow the steps in the README.
+   4. Download [Forge Source](https://mcarchive.net/mods/minecraftforge?gvsn=b1.7.3) and follow the steps in the README.TXT
    5. Download [mine_diver's Fixed Forge patch](http://www.mediafire.com/file/kmf47og8hf1c7ib) and extract it into the root of your MCP folder.
 2. Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract the src folder into the root of your MCP folder.
-3. OPTIONAL: To get textures working, put the nfc folder into /jars/bin/minecraft.jar
+3. If using eclipse, open the workspace with the eclipse folder and go to the src properties. Under Resource > Resource Filters, remove the filter 'Name matches net'.
+4. OPTIONAL: To get textures working, put the nfc folder into /jars/bin/minecraft.jar
 
 ## License
 
