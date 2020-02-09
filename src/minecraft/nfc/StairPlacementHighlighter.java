@@ -2,16 +2,7 @@ package nfc;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EnumMovingObjectType;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.RenderGlobal;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.World;
-import net.minecraft.src.mod_NFC;
+import net.minecraft.src.*;
 import net.minecraft.src.forge.IHighlightHandler;
 
 public class StairPlacementHighlighter implements IHighlightHandler {
@@ -19,7 +10,8 @@ public class StairPlacementHighlighter implements IHighlightHandler {
 	@Override
 	public boolean onBlockHighlight(RenderGlobal renderglobal, EntityPlayer entityplayer, MovingObjectPosition movingobjectposition, int i, ItemStack itemstack, float f) {
 		if(true) return false;
-		if(itemstack != null && itemstack.itemID == mod_NFC.slab.blockID && mod_NFC.slab.isStairs(itemstack.getItemDamage())) {
+	
+		if(itemstack != null /* && itemstack.itemID == mod_NFC.slab.blockID && mod_NFC.slab.isStairs(itemstack.getItemDamage())*/) {
 			renderglobal.drawBlockBreaking(entityplayer, movingobjectposition, 0, entityplayer.inventory.getCurrentItem(), f);
 	        renderglobal.drawSelectionBox(entityplayer, movingobjectposition, 0, entityplayer.inventory.getCurrentItem(), f);
 			if(i == 0 && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)

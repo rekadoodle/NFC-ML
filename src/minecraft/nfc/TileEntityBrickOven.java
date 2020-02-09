@@ -1,6 +1,7 @@
 package nfc;
 
 import net.minecraft.src.*;
+import nfc.block.BlockBrickOven;
 
 public class TileEntityBrickOven extends TileEntityFurnaceMetadataFix {
 

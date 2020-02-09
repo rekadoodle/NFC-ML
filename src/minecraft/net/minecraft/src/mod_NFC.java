@@ -5,6 +5,9 @@ import java.util.List;
 
 import net.minecraft.src.forge.MinecraftForgeClient;
 import nfc.*;
+import nfc.block.*;
+import nfc.item.*;
+import nfc.props.*;
 
 public class mod_NFC extends BaseMod {
 
@@ -15,8 +18,6 @@ public class mod_NFC extends BaseMod {
 	}
 	
 	public mod_NFC() {
-		ModLoader.RegisterTileEntity(TileEntityBlock.class, "nfc.ore");
-		ModLoader.RegisterTileEntity(TileEntitySlab.class, "nfc.slab");
 		ModLoader.RegisterTileEntity(TileEntityBrickOven.class, "nfc.brickoven");
 		ModLoader.RegisterTileEntity(TileEntityFurnaceMetadataFix.class, "nfc.furnacefixed");
 		MinecraftForgeClient.registerHighlightHandler(new StairPlacementHighlighter());
@@ -153,7 +154,6 @@ public class mod_NFC extends BaseMod {
 
 	public static int render_ID;
 	public int slab_stair;
-	public static BlockSlab slab;
 	public static final String resources = "/nfc/resources/";
 	public static final int blockID = 150;
 	public static final int itemID = 454 - 256;
