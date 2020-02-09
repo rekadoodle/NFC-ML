@@ -42,6 +42,13 @@ public abstract class PropsBlockCustomRenderMulti extends PropsBlockTexture {
         return new ChunkCoordinates(x, y, z);
 	}
 	
+	public int getMetadataAfterWrench(int metadata) {
+		if(++metadata >= block_metadata + IDS_USED) {
+			return block_metadata;
+		}
+		return metadata;
+	}
+	
 	public abstract void setBlockBounds(Block block, int metadata, int renders);
 	public abstract int getTextureIndex(int side, int metadata);
 	public abstract void onBlockPlaced(World world, int x, int y, int z, int side, BlockMultiCustomRender block);

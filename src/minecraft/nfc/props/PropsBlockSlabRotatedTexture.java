@@ -84,4 +84,17 @@ public class PropsBlockSlabRotatedTexture extends PropsBlockSlab {
 		}
 		return super.getTextureIndex(newSide, metadata);
 	}
+	
+	@Override
+	public int getMetadataAfterWrench(int metadata) {
+		if(metadata < block_metadata + 6) {
+			if(++metadata >= block_metadata + 6) {
+				return block_metadata;
+			}
+		}
+		else if(++metadata >= block_metadata + IDS_USED) {
+			return block_metadata + 6;
+		}
+		return metadata;
+	}
 }

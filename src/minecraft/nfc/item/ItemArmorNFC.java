@@ -22,18 +22,40 @@ public class ItemArmorNFC extends ItemArmor implements ITextureProvider, IArmorT
 			case 0:
 				name = ".helmet";
 				niceName = "Helmet";
+				ModLoader.AddRecipe(new ItemStack(this), new Object[] {
+						"XXX",
+			            "X X",
+			            Character.valueOf('X'), material.getItemStack(),
+			    });
 				break;
 			case 1:
 				name = ".chestplate";
 				niceName = "Chestplate";
+				ModLoader.AddRecipe(new ItemStack(this), new Object[] {
+			            "X X",
+						"XXX",
+			            "XXX",
+			            Character.valueOf('X'), material.getItemStack(),
+			    });
 				break;
 			case 2:
 				name = ".leggings";
 				niceName = "Leggings";
+				ModLoader.AddRecipe(new ItemStack(this), new Object[] {
+						"XXX",
+			            "X X",
+			            "X X",
+			            Character.valueOf('X'), material.getItemStack(),
+			    });
 				break;
 			default:
 				name = ".boots";
 				niceName = "Boots";
+				ModLoader.AddRecipe(new ItemStack(this), new Object[] {
+			            "X X",
+			            "X X",
+			            Character.valueOf('X'), material.getItemStack(),
+			    });
 				break;
 		}
 		this.setItemName(new StringBuilder().append(material.getName()).append(name).toString());

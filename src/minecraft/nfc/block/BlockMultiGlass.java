@@ -6,8 +6,8 @@ import nfc.props.PropsBlock;
 
 public class BlockMultiGlass extends BlockMultiTexture {
 
-	public BlockMultiGlass(int id, Material material, PropsBlock... blocks) {
-		super(id, material, blocks);
+	public BlockMultiGlass(int id, int renderID, Material material, PropsBlock... blocks) {
+		super(id, renderID, material, blocks);
 	}
 
 	@Override

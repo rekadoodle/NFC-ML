@@ -5,9 +5,10 @@ import java.util.Random;
 
 import net.minecraft.src.*;
 import net.minecraft.src.forge.MinecraftForge;
+import nfc.props.PropsItem.Wrench.IWrenchable;
 import nfc.props.*;
 
-public class BlockMultiCustomRender extends BlockMultiTexture {
+public class BlockMultiCustomRender extends BlockMultiTexture implements IWrenchable {
 
 	private PropsBlockCustomRenderMulti currentRender;
 	
@@ -20,8 +21,8 @@ public class BlockMultiCustomRender extends BlockMultiTexture {
 		return blocks;
 	}
 
-	public BlockMultiCustomRender(int id, Material material, PropsBlock ...blocks) {
-		super(id, material, convertProps(blocks));
+	public BlockMultiCustomRender(int id, int renderID, Material material, PropsBlock ...blocks) {
+		super(id, renderID, material, convertProps(blocks));
 		int correctId = 0;
 		for(PropsBlock obj : super.getAllBlockProps()) {
 			PropsBlockCustomRenderMulti blockprops = (PropsBlockCustomRenderMulti) obj;
@@ -199,4 +200,16 @@ public class BlockMultiCustomRender extends BlockMultiTexture {
 		if(currentRender == null) return super.getBlockTextureFromSide(side);
 		return currentRender.getTextureIndex(side);
     }
+
+	@Override
+	public boolean onWrenched(World world, int x, int y, int z) {
+		int metadata = world.getBlockMetadata(x, y, z);
+		PropsBlockCustomRenderMulti blockprops = this.getBlockProps(metadata);
+		int newMetadata = blockprops.getMetadataAfterWrench(metadata);
+		if(metadata == newMetadata) {
+			return false;
+		}
+		world.markBlockAsNeedsUpdate(x, y, z);
+		return world.setBlockMetadata(x, y, z, newMetadata);
+	}
 }

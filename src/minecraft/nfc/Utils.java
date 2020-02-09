@@ -1,6 +1,7 @@
 package nfc;
 
 import java.lang.reflect.*;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
@@ -9,6 +10,7 @@ public class Utils {
 
 	public static final Minecraft mc = ModLoader.getMinecraftInstance();
 	private static final Field modifiersField = getField(Field.class, "modifiers");
+	private static final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput");
 
 	// Used for easy reflection with obfuscated or regular fields
 	public static final Field getField(Class<?> target, String... names) {
@@ -40,5 +42,20 @@ public class Utils {
 	public static int clearBlockID(int id) {
 		Block.blocksList[id] = null;
 		return id;
+	}
+	
+	public static void overrideShapedRecipes(ItemStack vanilla, ItemStack newitems) {
+		@SuppressWarnings("unchecked")
+		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
+		for(IRecipe recipe : recipes) {
+			if(recipe instanceof ShapedRecipes) {
+				if(recipe.getRecipeOutput().isItemEqual(vanilla)) {
+					try {
+						recipeOutput.set(recipe, newitems);
+					} 
+					catch (Exception e) { e.printStackTrace(); }
+				}
+			}
+		}
 	}
 }

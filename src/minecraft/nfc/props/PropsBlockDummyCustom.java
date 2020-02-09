@@ -35,4 +35,9 @@ public class PropsBlockDummyCustom extends PropsBlockCustomRenderMulti {
 		block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
+	@Override
+	public int getMetadataAfterWrench(int metadata) {
+		return metadata;
+	}
+
 }

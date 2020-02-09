@@ -46,6 +46,10 @@ public class ContainerBrickOven extends Container {
 		return tileentity.canInteractWith(entityplayer);
 	}
 
+	/**
+	 * This is some shift clicking shit I don't really understand, think I fixed it doe
+	 */
+	@Override
 	public ItemStack getStackInSlot(int i) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) slots.get(i);
@@ -54,11 +58,14 @@ public class ContainerBrickOven extends Container {
 			itemstack = itemstack1.copy();
 			if (i == 10) {
 				func_28125_a(itemstack1, 11, 47, true);
-			} else if (i >= 11 && i < 38) {
-				func_28125_a(itemstack1, 38, 39, false);
-			} else if (i >= 38 && i < 47) {
+			} 
+			else if (i >= 11 && i < 38) {
+				func_28125_a(itemstack1, 38, 47, false);
+			} 
+			else if (i >= 38 && i < 47) {
 				func_28125_a(itemstack1, 11, 38, false);
-			} else {
+			} 
+			else {
 				func_28125_a(itemstack1, 11, 47, false);
 			}
 			if (itemstack1.stackSize == 0) {

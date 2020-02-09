@@ -2,17 +2,19 @@ package nfc.block;
 
 import net.minecraft.src.Material;
 import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.mod_NFC;
 import net.minecraft.src.forge.ForgeHooksClient;
 import nfc.props.PropsBlock;
 import nfc.props.PropsBlockTexture;
 
 public class BlockMultiTexture extends BlockMulti {
 	private String textureFile = super.getTextureFile();
-	private int renderType = mod_NFC.render_ID;
+	private final int renderID;
+	private int renderType;
 
-	public BlockMultiTexture(int id, Material material, PropsBlock... blocks) {
+	public BlockMultiTexture(int id, int renderID, Material material, PropsBlock... blocks) {
 		super(id, material, blocks);
+		this.renderID = renderID;
+		this.resetRenderType();
 	}
 
 	@Override
@@ -26,7 +28,7 @@ public class BlockMultiTexture extends BlockMulti {
 	}
 	
 	public void resetRenderType() {
-		this.renderType = mod_NFC.render_ID;
+		this.renderType = this.renderID;
 	}
 	
 	@Override

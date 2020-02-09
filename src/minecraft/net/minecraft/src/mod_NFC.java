@@ -1,8 +1,5 @@
 package net.minecraft.src;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import net.minecraft.src.forge.MinecraftForgeClient;
 import nfc.*;
 import nfc.block.*;
@@ -22,24 +19,22 @@ public class mod_NFC extends BaseMod {
 		ModLoader.RegisterTileEntity(TileEntityFurnaceMetadataFix.class, "nfc.furnacefixed");
 		MinecraftForgeClient.registerHighlightHandler(new StairPlacementHighlighter());
 		
-		slab_stair = ModLoader.getUniqueBlockModelID(this, true);
-		render_ID  = ModLoader.getUniqueBlockModelID(this, true);
-		new ItemMagicStick(itemID - 1);
+		int renderID  = ModLoader.getUniqueBlockModelID(this, true);
 
-		slab1 = new BlockMultiCustomRender(blockID + 2, Material.rock, STONE_SLAB, STONE_PLATED, BRICK_SLAB);
-		slab2 = new BlockMultiCustomRender(blockID + 3, Material.wood, PLANKS_SLAB, PLANKS_STAIRS);
-		slab3 = new BlockMultiCustomRender(blockID + 4, Material.rock, COBBLE_SLAB, SANDSTONE_SLAB);
-		slab4 = new BlockMultiCustomRender(blockID + 5, Material.rock, SANDSTONE_STAIRS, BRICK_STAIRS);
-		slab5 = new BlockMultiCustomRender(blockID + 6, Material.rock, STONE_BRICK_STAIRS, COBBLE_STAIRS);
-		glass = new BlockMultiGlass(blockID + 7, Material.glass, GLASS, WINDOW_LARGE, WINDOW_DOUBLE, WINDOW);
+		new BlockMultiCustomRender(blockID + 2, renderID, Material.rock, STONE_SLAB, STONE_PLATED, BRICK_SLAB);
+		new BlockMultiCustomRender(blockID + 3, renderID, Material.wood, PLANKS_SLAB, PLANKS_STAIRS);
+		new BlockMultiCustomRender(blockID + 4, renderID, Material.rock, COBBLE_SLAB, SANDSTONE_SLAB);
+		new BlockMultiCustomRender(blockID + 5, renderID, Material.rock, SANDSTONE_STAIRS, BRICK_STAIRS);
+		new BlockMultiCustomRender(blockID + 6, renderID, Material.rock, STONE_BRICK_STAIRS, COBBLE_STAIRS);
+		new BlockMultiGlass(blockID + 7, renderID, Material.glass, GLASS, WINDOW_LARGE, WINDOW_DOUBLE, WINDOW);
 		
 		//Override recipes for new slabs/stairs and such
-		this.overrideAllRecipes(new ItemStack(Block.stairSingle, 1, 0), STONE_SLAB.getItemStack());
-		this.overrideAllRecipes(new ItemStack(Block.stairSingle, 1, 1), SANDSTONE_SLAB.getItemStack());
-		this.overrideAllRecipes(new ItemStack(Block.stairSingle, 1, 2), PLANKS_SLAB.getItemStack());
-		this.overrideAllRecipes(new ItemStack(Block.stairSingle, 1, 3), COBBLE_SLAB.getItemStack());
-		this.overrideAllRecipes(new ItemStack(Block.stairCompactCobblestone), COBBLE_STAIRS.getItemStack());
-		this.overrideAllRecipes(new ItemStack(Block.stairCompactPlanks), PLANKS_STAIRS.getItemStack());
+		Utils.overrideShapedRecipes(new ItemStack(Block.stairSingle, 1, 0), STONE_SLAB.getItemStack());
+		Utils.overrideShapedRecipes(new ItemStack(Block.stairSingle, 1, 1), SANDSTONE_SLAB.getItemStack());
+		Utils.overrideShapedRecipes(new ItemStack(Block.stairSingle, 1, 2), PLANKS_SLAB.getItemStack());
+		Utils.overrideShapedRecipes(new ItemStack(Block.stairSingle, 1, 3), COBBLE_SLAB.getItemStack());
+		Utils.overrideShapedRecipes(new ItemStack(Block.stairCompactCobblestone), COBBLE_STAIRS.getItemStack());
+		Utils.overrideShapedRecipes(new ItemStack(Block.stairCompactPlanks), PLANKS_STAIRS.getItemStack());
 		
 		ModLoader.AddRecipe(BRICK_SLAB.getItemStack(), new Object[]{
 				"XXX",
@@ -85,23 +80,6 @@ public class mod_NFC extends BaseMod {
 		FurnaceManager.instance.addSmelting(ORE_URANINITE.getItemStack(), URANIUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_PLATINUM.getItemStack(), PLATINUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_BORON.getItemStack(), BORON.getItemStack());
-	}
-	
-	private final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput");
-	
-	public void overrideAllRecipes(ItemStack vanilla, ItemStack newitems) {
-		@SuppressWarnings("unchecked")
-		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-		for(IRecipe recipe : recipes) {
-			if(recipe instanceof ShapedRecipes) {
-				if(recipe.getRecipeOutput().isItemEqual(vanilla)) {
-					try {
-						recipeOutput.set(recipe, newitems);
-					} 
-					catch (Exception e) { e.printStackTrace(); }
-				}
-			}
-		}
 	}
 	
 	@Override
@@ -151,16 +129,18 @@ public class mod_NFC extends BaseMod {
 	public static final PropsItem MAGNET = new PropsItem("Magnet", 168);
 	public static final PropsItem URANIUM = new PropsItem("Uranium", 170);
 	public static final PropsItem ANTHRICITE = new PropsItem("Anthricite", 169);
+	
+	public static final PropsItem.Wrench WRENCH = new PropsItem.Wrench("Wrench", 171);
 
-	public static int render_ID;
-	public int slab_stair;
 	public static final String resources = "/nfc/resources/";
 	public static final int blockID = 150;
 	public static final int itemID = 454 - 256;
 	static int id = itemID;
 	static int ingotID = 0;
 	
-	public static ItemMulti item = new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE, MAGNET, URANIUM, ANTHRICITE);
+	static {
+		new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE, MAGNET, URANIUM, ANTHRICITE, WRENCH);
+	}
 	
 	public static final PropsBlock.Ore ORE_COPPER = new PropsBlock.Ore(COPPER, 3.0F, 0);
 	public static final PropsBlock.Ore ORE_TIN = new PropsBlock.Ore(TIN, 3.0F, 1);
@@ -191,8 +171,10 @@ public class mod_NFC extends BaseMod {
 	public static final PropsBlock STONE_BRICK = new PropsBlock("Stone Brick", 1.0F, 10.0F, 26);
 	public static final PropsBlock STONE_BRICK_SMALL = new PropsBlock("Small Stone Brick", 1.0F, 10.0F, 27);
 	
-	private static final BlockMulti stone1 = new BlockMulti(blockID, Material.rock, ORE_COPPER, ORE_TIN, ORE_ZINC, ORE_ALUMINUM, ORE_LEAD, ORE_BISMUTH, ORE_BORON, ORE_SILVER, ORE_CHROME, ORE_NICKEL, ORE_PLATINUM, ORE_TUNGSTEN, ORE_SILICON, ORE_COBALT, ORE_MAGNETITE, ORE_TITANIUM);
-	private static final BlockMulti stone2 = new BlockMulti(blockID + 1, Material.rock, ORE_ANTHRACITE, ORE_RUBY, ORE_SAPHIRE, ORE_EMERALD, ORE_OSMIUM, STONE_BLOCK, STONE_BLOCK_OFFSET_XY,  STONE_BLOCK_OFFSET_X, STONE_BLOCK_OFFSET_Y, STONE_BRICK, STONE_BRICK_SMALL);
+	static {
+		new BlockMulti(blockID, Material.rock, ORE_COPPER, ORE_TIN, ORE_ZINC, ORE_ALUMINUM, ORE_LEAD, ORE_BISMUTH, ORE_BORON, ORE_SILVER, ORE_CHROME, ORE_NICKEL, ORE_PLATINUM, ORE_TUNGSTEN, ORE_SILICON, ORE_COBALT, ORE_MAGNETITE, ORE_TITANIUM);
+		new BlockMulti(blockID + 1, Material.rock, ORE_ANTHRACITE, ORE_RUBY, ORE_SAPHIRE, ORE_EMERALD, ORE_OSMIUM, STONE_BLOCK, STONE_BLOCK_OFFSET_XY,  STONE_BLOCK_OFFSET_X, STONE_BLOCK_OFFSET_Y, STONE_BRICK, STONE_BRICK_SMALL);
+	}
 	
 	public static final PropsBlockDummyCustom STONE_PLATED = new PropsBlockDummyCustom(new PropsBlockTexture("Plated Stone", "/terrain.png", 1.0F, 10.0F, 6));
 	public static final PropsBlockSlabRotatedTexture STONE_SLAB = new PropsBlockSlabRotatedTexture("Stone", Block.stairDouble, 0);
@@ -209,13 +191,6 @@ public class mod_NFC extends BaseMod {
 	public static final PropsBlock WINDOW_LARGE = new PropsBlock("Large Window", 0.3F, 1.5F, 28);
 	public static final PropsBlock WINDOW_DOUBLE = new PropsBlock("Double Window", 0.3F, 1.5F, 29);
 	public static final PropsBlock WINDOW = new PropsBlock("Window", 0.3F, 1.5F, 30);
-	
-	private final BlockMultiCustomRender slab1;
-	private final BlockMultiCustomRender slab2;
-	private final BlockMultiCustomRender slab3;
-	private final BlockMultiCustomRender slab4;
-	private final BlockMultiCustomRender slab5;
-	private final BlockMultiTexture glass;
 	
 	public static final Block BRICKOVEN_IDLE = new BlockBrickOven(230, false, 32);
 	public static final Block BRICKOVEN_ACTIVE = new BlockBrickOven(231, true, 34);

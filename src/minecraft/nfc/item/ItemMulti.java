@@ -5,10 +5,11 @@ import java.util.List;
 
 import net.minecraft.src.*;
 import net.minecraft.src.forge.ITextureProvider;
+import net.minecraft.src.forge.IUseItemFirst;
 import nfc.props.PropsItem;
 import nfc.props.PropsItemToolMaterial;
 
-public class ItemMulti extends Item implements ITextureProvider  {
+public class ItemMulti extends Item implements ITextureProvider, IUseItemFirst  {
 	private final List<PropsItem> propsList = new ArrayList<PropsItem>();
 	
 	public ItemMulti(int id, PropsItem ...items) {
@@ -51,4 +52,13 @@ public class ItemMulti extends Item implements ITextureProvider  {
 		}
         return itemstack;
     }
+
+	@Override
+	public boolean onItemUseFirst(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side) {
+		PropsItem itemprop = propsList.get(itemstack.getItemDamage());
+		if(itemprop instanceof PropsItem.Wrench) {
+			return ((PropsItem.Wrench)itemprop).onItemUseFirst(itemstack, player, world, x, y, z, side);
+		}
+		return false;
+	}
 }
