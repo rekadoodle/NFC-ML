@@ -17,7 +17,8 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [x] Brick Oven
 - [ ] Brick Oven HMI support
 - [ ] Telescope
-- [ ] Wrench
+- [x] Wrench
+- [ ] Custom Sounds
 - [ ] Music Discs
 - [ ] Oil
 - [ ] Writable Books
