@@ -7,9 +7,9 @@ import net.minecraft.src.*;
 
 public class FurnaceManager {
 	
-	public class FurnaceRecipe {
+	public class Recipe {
 		
-		public FurnaceRecipe(ItemStack input, ItemStack output) {
+		public Recipe(ItemStack input, ItemStack output) {
 			this.input = input;
 			this.output = output;
 		}
@@ -20,12 +20,12 @@ public class FurnaceManager {
 	
 	public void addSmelting(ItemStack input, ItemStack output)
     {
-        recipes.add(new FurnaceRecipe(input, output));
+        recipes.add(new Recipe(input, output));
     }
 
 	public ItemStack getSmeltingResult(ItemStack input)
     {
-		for(FurnaceRecipe recipe : recipes) {
+		for(Recipe recipe : recipes) {
 			if(recipe.input.isItemEqual(input)) {
 				return recipe.output.copy();
 			}
@@ -33,6 +33,6 @@ public class FurnaceManager {
         return (ItemStack)FurnaceRecipes.smelting().getSmeltingResult(input.itemID);
     }
 	
-	private final List<FurnaceRecipe> recipes = new ArrayList<FurnaceRecipe>();
+	private final List<Recipe> recipes = new ArrayList<Recipe>();
 	public static final FurnaceManager instance = new FurnaceManager();
 }

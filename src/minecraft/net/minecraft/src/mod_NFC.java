@@ -148,7 +148,8 @@ public class mod_NFC extends BaseMod {
 	public static final PropsItem.Food CHEESE = new PropsItem.Food("Cheese", 5, 167);
 	
 	public static final PropsItem MAGNET = new PropsItem("Magnet", 168);
-	public static final PropsItem URANIUM = new PropsItem("Uranium", 169);
+	public static final PropsItem URANIUM = new PropsItem("Uranium", 170);
+	public static final PropsItem ANTHRICITE = new PropsItem("Anthricite", 169);
 
 	public static int render_ID;
 	public int slab_stair;
@@ -159,7 +160,7 @@ public class mod_NFC extends BaseMod {
 	static int id = itemID;
 	static int ingotID = 0;
 	
-	public static ItemMulti item = new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE, MAGNET, URANIUM);
+	public static ItemMulti item = new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE, MAGNET, URANIUM, ANTHRICITE);
 	
 	public static final PropsBlock.Ore ORE_COPPER = new PropsBlock.Ore(COPPER, 3.0F, 0);
 	public static final PropsBlock.Ore ORE_TIN = new PropsBlock.Ore(TIN, 3.0F, 1);
@@ -177,7 +178,7 @@ public class mod_NFC extends BaseMod {
 	public static final PropsBlock.Ore ORE_COBALT = new PropsBlock.Ore(COBALT, 4.0F, 13);
 	public static final PropsBlock.Ore ORE_MAGNETITE = new PropsBlock.Ore("Magnetite", 4.0F, 14);
 	public static final PropsBlock.Ore ORE_TITANIUM = new PropsBlock.Ore(TITANIUM, 6.0F, 15);
-	public static final PropsBlock.Ore ORE_ANTHRACITE = new PropsBlock.Ore("Anthracite", 4.0F/*, item.anthracite.id*/, 16);
+	public static final PropsBlock.Ore ORE_ANTHRACITE = new PropsBlock.Ore("Anthracite", 4.0F, ANTHRICITE.item_id, ANTHRICITE.item_metadata, 16);
 	public static final PropsBlock.Ore ORE_RUBY = new PropsBlock.Ore(RUBY, 8.0F, RUBY.item_id, RUBY.item_metadata, 17);
 	public static final PropsBlock.Ore ORE_SAPHIRE = new PropsBlock.Ore(SAPHIRE, 8.0F, SAPHIRE.item_id, SAPHIRE.item_metadata, 18);
 	public static final PropsBlock.Ore ORE_EMERALD = new PropsBlock.Ore(EMERALD, 8.0F, EMERALD.item_id, EMERALD.item_metadata, 19);

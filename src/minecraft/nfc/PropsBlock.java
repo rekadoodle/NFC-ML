@@ -62,6 +62,10 @@ public class PropsBlock extends Props {
 			this.addLocalisation(new StringBuilder().append(name).append(' ').append("Ore").toString());
 		}
 		
+		public Ore(String name, float hardness, int idDropped, int damageDropped, int textureIndex) {
+			this(name, 0, hardness, idDropped, damageDropped, textureIndex);
+		}
+
 		public void setHarvestLevel() {
 			MinecraftForge.setBlockHarvestLevel(Block.blocksList[this.block_id], this.block_metadata, "pickaxe", this.TIER);
 		}

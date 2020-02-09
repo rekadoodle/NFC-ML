@@ -49,6 +49,7 @@ public class ItemBlockNFC extends ItemBlock {
 				flag = world.getBlockId(x2, y2, z2) == mod_NFC.blockID + 1;
 			}
 			if(flag) {
+				/*
 				TileEntitySlab e = (TileEntitySlab) world.getBlockTileEntity(x2, y2, z2);
 				if(e.acceptsNewBlock(world, itemstack.getItemDamage(), l)) {
 					Block block = Block.blocksList[mod_NFC.blockID];
@@ -56,6 +57,7 @@ public class ItemBlockNFC extends ItemBlock {
 	                itemstack.stackSize--;
 					return true;
 				}
+				*/
 			}
 		}
 		return super.onItemUse(itemstack, entityplayer, world, i, j, k, l);

@@ -58,11 +58,11 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 		return true;
 	}
 
-	public static void updateFurnaceBlockState(boolean flag, World world, int i, int j, int k) {
+	public static void updateFurnaceBlockState(boolean isActive, World world, int i, int j, int k) {
 		int l = world.getBlockMetadata(i, j, k);
 		TileEntity tileentity = world.getBlockTileEntity(i, j, k);
 		setKeepFurnaceInventory(true);
-		if (flag) {
+		if (isActive) {
 			world.setBlockWithNotify(i, j, k, mod_NFC.BRICKOVEN_ACTIVE.blockID);
 		} else {
 			world.setBlockWithNotify(i, j, k, mod_NFC.BRICKOVEN_IDLE.blockID);
