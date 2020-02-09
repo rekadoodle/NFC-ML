@@ -23,7 +23,7 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 		this.disableNeighborNotifyOnMetadataChange();
 		if(isActive) {
 			this.setLightValue(0.875F);
-			ModLoader.AddName(this, "Active Brick Oven");
+			ModLoader.AddName(this, "Brick Oven (Active)");
 		}
 		else {
 			ModLoader.AddName(this, "Brick Oven");

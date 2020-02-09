@@ -122,7 +122,8 @@ public class BlockMultiCustomRender extends BlockMultiTexture implements IWrench
 	
 	@Override
 	public void renderBlockInv(RenderBlocks renderblocks, int metadata) {
-		this.getBlockProps(metadata).setInvBlockBounds(this, metadata);
+		PropsBlockCustomRenderMulti blockprops = this.getBlockProps(metadata);
+		blockprops.setInvBlockBounds(this, metadata - blockprops.block_metadata);
 		super.renderBlockInv(renderblocks, metadata);
 	}
 	
@@ -212,4 +213,13 @@ public class BlockMultiCustomRender extends BlockMultiTexture implements IWrench
 		world.markBlockAsNeedsUpdate(x, y, z);
 		return world.setBlockMetadata(x, y, z, newMetadata);
 	}
+	
+	@Override
+	public String getItemNameIS(ItemStack itemstack)
+    {
+		int metadata = itemstack.getItemDamage();
+		PropsBlockCustomRenderMulti blockprops = this.getBlockProps(metadata);
+		int subMetadata = metadata - blockprops.block_metadata;
+    	return blockprops.getName(subMetadata);
+    }
 }

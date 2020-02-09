@@ -60,6 +60,14 @@ public class mod_NFC extends BaseMod {
 				"XX",
 				Character.valueOf('X'), Block.stone
 		});
+
+		ModLoader.AddRecipe(new ItemStack(STONE_SLAB.block_id, 1, STONE_SLAB.block_metadata + 6), new Object[]{
+				"X",
+				"X",
+				Character.valueOf('X'), STONE_SLAB.getItemStack()
+		});
+		
+		ModLoader.AddShapelessRecipe(STONE_SLAB.getItemStack(2), new Object[] {new ItemStack(STONE_SLAB.block_id, 1, STONE_SLAB.block_metadata + 6)});
 		
 		//Override vanilla furnace to use metadata smelt accepting tile entity
 		Utils.replaceBlock(new BlockFurnaceMetadataFix(Block.stoneOvenIdle, false), "stoneOvenIdle", "aC");

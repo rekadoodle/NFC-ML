@@ -2,6 +2,7 @@ package nfc.props;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.World;
 import nfc.block.BlockMultiCustomRender;
 
@@ -9,28 +10,35 @@ public class PropsBlockSlabRotatedTexture extends PropsBlockSlab {
 
 	public PropsBlockSlabRotatedTexture(String name, Block block, int metadata) {
 		super(name, block, metadata, 9);
+		ModLoader.AddLocalization(new StringBuilder().append(this.getName(6)).append(".name").toString(), "Double Slab");
 	}
 	
 	@Override
 	public void onBlockPlaced(World world, int x, int y, int z, int side, BlockMultiCustomRender block) {
-		ChunkCoordinates adjacentCoords = this.adjacentBlockCoords(x, y, z, side);
-        if(this.block_id == world.getBlockId(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z)) {
-        	int metadata = world.getBlockMetadata(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z);
-        	if(metadata >= this.block_metadata && metadata - this.block_metadata < this.IDS_USED) {
-        		int subMetadata = metadata - this.block_metadata;
-        		if(subMetadata < 6) {
-                	if(subMetadata == this.getOppositeSide(side)) {
-                		world.setBlockMetadata(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z, this.block_metadata + 6 + (subMetadata / 2));
-                		world.setBlock(x, y, z, 0);
-                	}
-                	else if(subMetadata != side) {
-                		world.setBlockMetadata(x, y, z, metadata);
-                	}
-                	return;
-        		}
-        	}
-        }
-		world.setBlockMetadata(x, y, z, block_metadata + this.getOppositeSide(side));
+		int metadata = world.getBlockMetadata(x, y, z);
+		if(metadata - this.block_metadata < 6) {
+			ChunkCoordinates adjacentCoords = this.adjacentBlockCoords(x, y, z, side);
+	        if(this.block_id == world.getBlockId(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z)) {
+	        	int adjacentMetadata = world.getBlockMetadata(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z);
+	        	if(adjacentMetadata >= this.block_metadata && adjacentMetadata - this.block_metadata < this.IDS_USED) {
+	        		int subMetadata = adjacentMetadata - this.block_metadata;
+	        		if(subMetadata < 6) {
+	                	if(subMetadata == this.getOppositeSide(side)) {
+	                		world.setBlockMetadata(adjacentCoords.x, adjacentCoords.y, adjacentCoords.z, this.block_metadata + 6 + (subMetadata / 2));
+	                		world.setBlock(x, y, z, 0);
+	                	}
+	                	else if(subMetadata != side) {
+	                		world.setBlockMetadata(x, y, z, adjacentMetadata);
+	                	}
+	                	return;
+	        		}
+	        	}
+	        }
+			world.setBlockMetadata(x, y, z, block_metadata + this.getOppositeSide(side));
+		}
+		else {
+			world.setBlockMetadata(x, y, z, block_metadata + 6 + (side / 2));
+		}
 	}
 	
 	@Override
@@ -96,5 +104,20 @@ public class PropsBlockSlabRotatedTexture extends PropsBlockSlab {
 			return block_metadata + 6;
 		}
 		return metadata;
+	}
+	
+	@Override
+	public void setInvBlockBounds(Block block, int metadata) {
+		if(metadata < 6) {
+			super.setInvBlockBounds(block, metadata);
+		}
+		else {
+			block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		}
+	}
+	
+	@Override
+	public String getName(int metadata) {
+		return new StringBuilder().append(super.getName()).append(metadata < 6 ? "" : ".double").toString();
 	}
 }
