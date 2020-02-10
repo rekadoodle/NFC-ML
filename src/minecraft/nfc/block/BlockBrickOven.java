@@ -4,10 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Random;
 
 import net.minecraft.src.*;
-import net.minecraft.src.forge.ITextureProvider;
-import nfc.GuiBrickOven;
-import nfc.TileEntityBrickOven;
-import nfc.Utils;
+import net.minecraft.src.forge.*;
+import nfc.*;
 
 public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 	
@@ -29,6 +27,7 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 			ModLoader.AddName(this, "Brick Oven");
 		}
 		ModLoader.RegisterBlock(this);
+		MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 0);
 	}
 
 	@Override

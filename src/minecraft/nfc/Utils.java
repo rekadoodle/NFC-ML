@@ -3,6 +3,8 @@ package nfc;
 import java.lang.reflect.*;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 
@@ -11,6 +13,8 @@ public class Utils {
 	public static final Minecraft mc = ModLoader.getMinecraftInstance();
 	private static final Field modifiersField = getField(Field.class, "modifiers");
 	private static final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput");
+	private static final Field timerField = Utils.getField(Minecraft.class, "timer", "T");
+	private static Timer timer;
 
 	// Used for easy reflection with obfuscated or regular fields
 	public static final Field getField(Class<?> target, String... names) {
@@ -57,5 +61,31 @@ public class Utils {
 				}
 			}
 		}
+	}
+	
+	public static int cursorX() {
+		if(mc.currentScreen != null) {
+	        return (Mouse.getX() * mc.currentScreen.width) / mc.displayWidth;
+		}
+		ScaledResolution scaledresolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        return (Mouse.getX() * scaledresolution.getScaledWidth()) / mc.displayWidth;
+	}
+	
+	public static int cursorY() {
+		if(mc.currentScreen != null) {
+	        return mc.currentScreen.height - (Mouse.getY() * mc.currentScreen.height) / Utils.mc.displayHeight - 1;
+		}
+        ScaledResolution scaledresolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        return scaledresolution.getScaledHeight() - (Mouse.getY() * scaledresolution.getScaledHeight()) / mc.displayHeight - 1;
+	}
+	
+	public static float renderPartialTicks() {
+		if(timer == null) {
+			try {
+				timer = (Timer) timerField.get(Utils.mc);
+			}
+			catch (Exception e) { e.printStackTrace(); } 
+		}
+		return timer.renderPartialTicks;
 	}
 }

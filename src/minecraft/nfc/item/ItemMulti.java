@@ -50,6 +50,9 @@ public class ItemMulti extends Item implements ITextureProvider, IUseItemFirst  
 		if(itemprop instanceof PropsItem.Food) {
 			((PropsItem.Food)itemprop).onItemRightClick(itemstack, world, entityplayer);
 		}
+		else if(itemprop instanceof PropsItem.Telescope) {
+			((PropsItem.Telescope)itemprop).onItemRightClick(itemstack, world, entityplayer);
+		}
         return itemstack;
     }
 

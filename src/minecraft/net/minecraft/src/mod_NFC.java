@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.forge.MinecraftForgeClient;
 import nfc.*;
 import nfc.block.*;
@@ -17,6 +20,7 @@ public class mod_NFC extends BaseMod {
 	public mod_NFC() {
 		ModLoader.RegisterTileEntity(TileEntityBrickOven.class, "nfc.brickoven");
 		ModLoader.RegisterTileEntity(TileEntityFurnaceMetadataFix.class, "nfc.furnacefixed");
+		ModLoader.SetInGameHook(this, true, false);
 		MinecraftForgeClient.registerHighlightHandler(new StairPlacementHighlighter());
 		
 		int renderID  = ModLoader.getUniqueBlockModelID(this, true);
@@ -91,6 +95,21 @@ public class mod_NFC extends BaseMod {
 	}
 	
 	@Override
+	public boolean OnTickInGame(Minecraft mc)
+    {
+		if(TELESCOPE.isZooming()) {
+			ItemStack heldItem = Utils.mc.thePlayer.getCurrentEquippedItem();
+			if(heldItem != null && heldItem.itemID == TELESCOPE.item_id && heldItem.getItemDamage() == TELESCOPE.item_metadata) {
+				TELESCOPE.renderOverlay();
+			}
+			else {
+				TELESCOPE.setZoom(false);
+			}
+		}
+        return true;
+    }
+	
+	@Override
 	public boolean RenderWorldBlock(RenderBlocks renderblocks, IBlockAccess iblockaccess, int x, int y, int z, Block block, int renderType)
     {
 		((BlockMultiTexture) block).renderBlockWorld(renderblocks, iblockaccess.getBlockMetadata(x, y, z), x, y, z);
@@ -139,6 +158,7 @@ public class mod_NFC extends BaseMod {
 	public static final PropsItem ANTHRICITE = new PropsItem("Anthricite", 169);
 	
 	public static final PropsItem.Wrench WRENCH = new PropsItem.Wrench("Wrench", 171);
+	public static final PropsItem.Telescope TELESCOPE = new PropsItem.Telescope("Telescope", 172);
 
 	public static final String resources = "/nfc/resources/";
 	public static final int blockID = 150;
@@ -147,7 +167,7 @@ public class mod_NFC extends BaseMod {
 	static int ingotID = 0;
 	
 	static {
-		new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE, MAGNET, URANIUM, ANTHRICITE, WRENCH);
+		new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM, SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG, CHEESE, MAGNET, URANIUM, ANTHRICITE, WRENCH, TELESCOPE);
 	}
 	
 	public static final PropsBlock.Ore ORE_COPPER = new PropsBlock.Ore(COPPER, 3.0F, 0);
