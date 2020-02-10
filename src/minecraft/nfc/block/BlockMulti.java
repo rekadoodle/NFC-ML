@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.src.*;
 import net.minecraft.src.forge.*;
+import nfc.Core;
 import nfc.item.ItemBlockNFC;
 import nfc.props.PropsBlock;
 
@@ -48,7 +49,7 @@ public class BlockMulti extends Block implements ITextureProvider, ISpecialResis
 	@Override
 	public String getTextureFile() 
 	{
-		return new StringBuilder(mod_NFC.resources).append("terrain.png").toString();
+		return new StringBuilder(Core.resources).append("terrain.png").toString();
 	}
 	
 	@Override

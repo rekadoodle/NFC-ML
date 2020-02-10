@@ -32,7 +32,7 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 
 	@Override
 	public int idDropped(int i, Random random) {
-		return mod_NFC.BRICKOVEN_IDLE.blockID;
+		return Core.BRICKOVEN_IDLE.blockID;
 	}
 
 	@Override
@@ -65,9 +65,9 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 		TileEntity tileentity = world.getBlockTileEntity(i, j, k);
 		setKeepFurnaceInventory(true);
 		if (isActive) {
-			world.setBlockWithNotify(i, j, k, mod_NFC.BRICKOVEN_ACTIVE.blockID);
+			world.setBlockWithNotify(i, j, k, Core.BRICKOVEN_ACTIVE.blockID);
 		} else {
-			world.setBlockWithNotify(i, j, k, mod_NFC.BRICKOVEN_IDLE.blockID);
+			world.setBlockWithNotify(i, j, k, Core.BRICKOVEN_IDLE.blockID);
 		}
 		setKeepFurnaceInventory(false);
 		world.setBlockMetadataWithNotify(i, j, k, l);
@@ -90,7 +90,7 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 	@Override
 	public String getTextureFile() 
 	{
-		return new StringBuilder(mod_NFC.resources).append("terrain.png").toString();
+		return new StringBuilder(Core.resources).append("terrain.png").toString();
 	}
 	
     private static Field parentKeepInventoryField = Utils.getField(BlockFurnace.class, "keepFurnaceInventory", "c");

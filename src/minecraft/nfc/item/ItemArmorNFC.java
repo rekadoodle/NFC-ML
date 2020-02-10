@@ -2,6 +2,7 @@ package nfc.item;
 
 import net.minecraft.src.*;
 import net.minecraft.src.forge.*;
+import nfc.Core;
 import nfc.props.PropsItemToolMaterial;
 
 public class ItemArmorNFC extends ItemArmor implements ITextureProvider, IArmorTextureProvider {
@@ -69,6 +70,6 @@ public class ItemArmorNFC extends ItemArmor implements ITextureProvider, IArmorT
 	
 	@Override
 	public String getArmorTextureFile() {
-		return new StringBuilder().append(mod_NFC.resources).append("armor/").append(material.NAME.toLowerCase()).append("_").append(armorType != 2 ? 1 : 2).append(".png").toString();
+		return new StringBuilder().append(Core.resources).append("armor/").append(material.NAME.toLowerCase()).append("_").append(armorType != 2 ? 1 : 2).append(".png").toString();
 	}
 }

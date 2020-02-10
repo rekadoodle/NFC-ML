@@ -3,8 +3,8 @@ package nfc.block;
 import net.minecraft.src.Block;
 import net.minecraft.src.Material;
 import net.minecraft.src.ModLoader;
-import net.minecraft.src.mod_NFC;
 import net.minecraft.src.forge.ITextureProvider;
+import nfc.Core;
 
 public class BlockScaffold extends Block implements ITextureProvider {
 
@@ -31,7 +31,7 @@ public class BlockScaffold extends Block implements ITextureProvider {
 	@Override
 	public String getTextureFile() 
 	{
-		return new StringBuilder(mod_NFC.resources).append("terrain.png").toString();
+		return new StringBuilder(Core.resources).append("terrain.png").toString();
 	}
 
 	@Override
