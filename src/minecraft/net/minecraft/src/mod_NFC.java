@@ -1,8 +1,8 @@
 package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
-import nfc.*;
-import nfc.block.*;
+import net.minecraft.src.nfc.*;
+import net.minecraft.src.nfc.block.*;
 
 public class mod_NFC extends BaseMod {
 
