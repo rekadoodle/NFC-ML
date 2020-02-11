@@ -1,6 +1,7 @@
 package net.minecraft.src.nfc.props;
 
 import java.lang.reflect.Field;
+import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,6 +15,8 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.ScaledResolution;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.World;
+import net.minecraft.src.nfc.Core;
+import net.minecraft.src.nfc.SoundManagerNFC;
 import net.minecraft.src.nfc.Utils;
 import net.minecraft.src.nfc.block.BlockBrickOven;
 
@@ -63,6 +66,7 @@ public class PropsItem extends Props {
 		
 		public boolean onItemUseFirst(ItemStack ist, EntityPlayer player, World world, int x, int y, int z, int side) {
 			Block block = Block.blocksList[world.getBlockId(x, y, z)];
+			world.playSoundAtEntity(player, Core.instance.soundManager.getSound(SoundManagerNFC.wrench), 0.5F, 0.825F + (new Random().nextFloat() * 0.05f));
 			if(block instanceof IWrenchable) {
 				return ((IWrenchable)block).onWrenched(world, x, y, z);
 			}

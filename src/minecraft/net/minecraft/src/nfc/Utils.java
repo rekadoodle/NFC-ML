@@ -1,7 +1,13 @@
 package net.minecraft.src.nfc;
 
+import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.input.Mouse;
 
@@ -12,7 +18,7 @@ public class Utils {
 
 	public static final Minecraft mc = ModLoader.getMinecraftInstance();
 	private static final Field modifiersField = getField(Field.class, "modifiers");
-	private static final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput");
+	private static final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput", "e");
 	private static final Field timerField = Utils.getField(Minecraft.class, "timer", "T");
 	private static Timer timer;
 
@@ -88,4 +94,46 @@ public class Utils {
 		}
 		return timer.renderPartialTicks;
 	}
+	
+	public static URL getResourceURL(String resource) {
+		return getResourceURLFromLocation(getResource(resource));
+	}
+	
+	private static URL getResourceURLFromLocation(String location) {
+		return Utils.class.getResource(location);
+	}
+	
+	public static String getResource(String resource) {
+		return getResource(resource, resource);
+	}
+	
+	public static String getResource(String resource, String backupResource) {
+		if(resourceExists(resource)) {
+			loadedResources.get(resource);
+		}
+		return new StringBuilder().append(resourcesFolder).append(backupResource).toString();
+	}
+	
+	public static boolean resourceExists(String resource) {
+		if(loadedResources.containsKey(resource)) {
+			return true;
+		}
+		if(missingResources.contains(resource)) {
+			return false;
+		}
+		String location = new StringBuilder().append(resourcesFolder).append(resource).toString();
+		if(getResourceURLFromLocation(location) != null) {
+			loadedResources.put(resource, location);
+			return true;
+		}
+		else  {
+			missingResources.add(resource);
+			System.out.println("NFC-ML ERROR: Missing file " + new File("bin\\minecraft.jar").getAbsolutePath().replace("\\", "/") + location);
+			return false;
+		}
+	}
+	
+	private static final Map<String, String> loadedResources = new HashMap<String, String>();
+	private static final List<String> missingResources = new ArrayList<String>();
+	private static final String resourcesFolder = "/nfc/resources/";
 }

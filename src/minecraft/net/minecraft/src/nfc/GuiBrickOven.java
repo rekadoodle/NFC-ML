@@ -19,7 +19,7 @@ public class GuiBrickOven extends GuiContainer {
 
 	protected void drawGuiContainerBackgroundLayer(float f) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(mc.renderEngine.getTexture(new StringBuilder().append(Core.resources).append("oven.png").toString()));
+		mc.renderEngine.bindTexture(mc.renderEngine.getTexture(Utils.getResource("oven.png")));
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);

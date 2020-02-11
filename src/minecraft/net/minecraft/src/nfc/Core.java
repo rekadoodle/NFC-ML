@@ -1,5 +1,12 @@
 package net.minecraft.src.nfc;
 
+import java.io.File;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 import net.minecraft.src.forge.MinecraftForgeClient;
 import net.minecraft.src.nfc.block.*;
@@ -24,7 +31,7 @@ public class Core {
 	}
 	
 	public String icon() {
-		return new StringBuilder().append(resources).append("/logo").toString();
+		return Utils.getResource("logo.png");
 	}
 
 	public void init(BaseMod basemod) {
@@ -35,10 +42,11 @@ public class Core {
 		ModLoader.RegisterTileEntity(TileEntityBrickOven.class, "nfc.brickoven");
 		ModLoader.RegisterTileEntity(TileEntityFurnaceMetadataFix.class, "nfc.furnacefixed");
 		
-		MinecraftForgeClient.preloadTexture(new StringBuilder(resources).append("items.png").toString());
-        MinecraftForgeClient.preloadTexture(new StringBuilder(resources).append("items2.png").toString());
-        MinecraftForgeClient.preloadTexture(new StringBuilder(resources).append("terrain.png").toString());
-		
+		for (String texture : new String[] {"items.png", "items2.png", "terrain.png"}) {
+			if(Utils.resourceExists(texture))
+				MinecraftForgeClient.preloadTexture(Utils.getResource(texture));
+		}
+        
 		int renderID  = ModLoader.getUniqueBlockModelID(basemod, true);
 
 		new BlockMultiCustomRender(blockID + 2, renderID, Material.rock, STONE_SLAB, STONE_PLATED, BRICK_SLAB);
@@ -108,7 +116,16 @@ public class Core {
 		FurnaceManager.instance.addSmelting(ORE_URANINITE.getItemStack(), URANIUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_PLATINUM.getItemStack(), PLATINUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_BORON.getItemStack(), BORON.getItemStack());
+		
+		soundManager.addSound(SoundManagerNFC.wrench);
+		
+		//Prevent gems from being named 'Gem Ingot'
+		RUBY.addLocalisation(RUBY.NAME);
+		SAPPHIRE.addLocalisation(SAPPHIRE.NAME);
+		EMERALD.addLocalisation(EMERALD.NAME);
 	}
+	
+	public SoundManagerNFC soundManager = new SoundManagerNFC();
 	
 	public void onTickIngame() 
 	{
@@ -159,7 +176,7 @@ public class Core {
 	public static final PropsItemToolMaterial TITANIUM = new PropsItemToolMaterial("Titanium", 4, 350, 14.0F, 10, 160);
 	public static final PropsItemToolMaterial TUNGSTEN = new PropsItemToolMaterial("Tungsten", 4, 1100, 6.0F, 10, 161);
 	public static final PropsItemToolMaterial RUBY = new PropsItemToolMaterial("Ruby", 4, 1000, 10.0F, 20, 162);
-	public static final PropsItemToolMaterial SAPHIRE = new PropsItemToolMaterial("Saphire", 4, 1000, 10.0F, 20, 163);
+	public static final PropsItemToolMaterial SAPPHIRE = new PropsItemToolMaterial("Sapphire", 4, 1000, 10.0F, 20, 163);
 	public static final PropsItemToolMaterial EMERALD = new PropsItemToolMaterial("Emerald", 4, 1000, 10.0F, 20, 164);
 	// diamond
 	public static final PropsItemToolMaterial OSMIUM = new PropsItemToolMaterial("Osmium", 5, 5000, 5.0F, 20, 165);
@@ -174,7 +191,6 @@ public class Core {
 	public static final PropsItem.Wrench WRENCH = new PropsItem.Wrench("Wrench", 171);
 	public static final PropsItem.Telescope TELESCOPE = new PropsItem.Telescope("Telescope", 172);
 
-	public static final String resources = "/nfc/resources/";
 	public static final int blockID = 150;
 	public static final int itemID = 454 - 256;
 	static int id = itemID;
@@ -182,7 +198,7 @@ public class Core {
 
 	static {
 		new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM,
-				SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPHIRE, EMERALD, OSMIUM, COOKED_EGG,
+				SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPPHIRE, EMERALD, OSMIUM, COOKED_EGG,
 				CHEESE, MAGNET, URANIUM, ANTHRICITE, WRENCH, TELESCOPE);
 	}
 
@@ -204,7 +220,7 @@ public class Core {
 	public static final PropsBlock.Ore ORE_TITANIUM = new PropsBlock.Ore(TITANIUM, 6.0F, 15);
 	public static final PropsBlock.Ore ORE_ANTHRACITE = new PropsBlock.Ore("Anthracite", 4.0F, ANTHRICITE.item_id, ANTHRICITE.item_metadata, 16);
 	public static final PropsBlock.Ore ORE_RUBY = new PropsBlock.Ore(RUBY, 8.0F, RUBY.item_id, RUBY.item_metadata, 17);
-	public static final PropsBlock.Ore ORE_SAPHIRE = new PropsBlock.Ore(SAPHIRE, 8.0F, SAPHIRE.item_id, SAPHIRE.item_metadata, 18);
+	public static final PropsBlock.Ore ORE_SAPHIRE = new PropsBlock.Ore(SAPPHIRE, 8.0F, SAPPHIRE.item_id, SAPPHIRE.item_metadata, 18);
 	public static final PropsBlock.Ore ORE_EMERALD = new PropsBlock.Ore(EMERALD, 8.0F, EMERALD.item_id, EMERALD.item_metadata, 19);
 	public static final PropsBlock.Ore ORE_URANINITE = new PropsBlock.Ore("Uraninite", 8.0F, 20);
 	public static final PropsBlock.Ore ORE_OSMIUM = new PropsBlock.Ore(OSMIUM, 10.0F, 21);

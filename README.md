@@ -18,7 +18,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [ ] Brick Oven HMI support
 - [x] Telescope
 - [x] Wrench
-- [ ] Custom Sounds
+- [x] Custom Sounds
 - [ ] Music Discs
 - [ ] Oil
 - [ ] Writable Books
@@ -44,7 +44,7 @@ Follow this if you just want to play the mod. There are no releases yet, but you
    4. Download [Forge Source](https://mcarchive.net/mods/minecraftforge?gvsn=b1.7.3) and follow the steps in the README.TXT
    5. Download [mine_diver's Fixed Forge patch](http://www.mediafire.com/file/kmf47og8hf1c7ib) and extract it into the root of your MCP folder.
 2. Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract the src folder into the root of your MCP folder.
-3. OPTIONAL: To get textures working, put the nfc folder into /jars/bin/minecraft.jar
+3. OPTIONAL: To get sounds/textures working, put the nfc folder into `/jars/bin/minecraft.jar` or `/eclipse/Client/bin`
 
 ## License
 

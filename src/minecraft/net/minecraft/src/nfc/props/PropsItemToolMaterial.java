@@ -2,6 +2,7 @@ package net.minecraft.src.nfc.props;
 
 import net.minecraft.src.*;
 import net.minecraft.src.nfc.Core;
+import net.minecraft.src.nfc.Utils;
 import net.minecraft.src.nfc.item.ItemArmorNFC;
 import net.minecraft.src.nfc.item.ItemAxeNFC;
 import net.minecraft.src.nfc.item.ItemHoeNFC;
@@ -59,9 +60,9 @@ public class PropsItemToolMaterial extends PropsItem {
 	public String getTextureFile() {
 		switch (item_metadata / 16) {
 		case 0:
-			return new StringBuilder(Core.resources).append("items.png").toString();
+			return Utils.getResource("items.png");
 		default:
-			return new StringBuilder(Core.resources).append("items2.png").toString();
+			return Utils.getResource("items2.png");
 		}
 	}
 

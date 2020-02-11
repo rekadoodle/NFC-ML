@@ -7,6 +7,7 @@ import net.minecraft.src.*;
 import net.minecraft.src.forge.ITextureProvider;
 import net.minecraft.src.forge.IUseItemFirst;
 import net.minecraft.src.nfc.Core;
+import net.minecraft.src.nfc.Utils;
 import net.minecraft.src.nfc.props.PropsItem;
 import net.minecraft.src.nfc.props.PropsItemToolMaterial;
 
@@ -41,7 +42,7 @@ public class ItemMulti extends Item implements ITextureProvider, IUseItemFirst  
 
 	@Override
 	public String getTextureFile() {
-		return new StringBuilder(Core.resources).append("items.png").toString();
+		return Utils.getResource("items.png");
 	}
 	
 	@Override

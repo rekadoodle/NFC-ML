@@ -5,6 +5,7 @@ import net.minecraft.src.Material;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.forge.ITextureProvider;
 import net.minecraft.src.nfc.Core;
+import net.minecraft.src.nfc.Utils;
 
 public class BlockScaffold extends Block implements ITextureProvider {
 
@@ -31,7 +32,7 @@ public class BlockScaffold extends Block implements ITextureProvider {
 	@Override
 	public String getTextureFile() 
 	{
-		return new StringBuilder(Core.resources).append("terrain.png").toString();
+		return Utils.getResource("terrain.png");
 	}
 
 	@Override

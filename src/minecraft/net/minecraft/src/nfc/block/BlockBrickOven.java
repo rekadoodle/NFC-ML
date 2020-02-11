@@ -90,7 +90,7 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 	@Override
 	public String getTextureFile() 
 	{
-		return new StringBuilder(Core.resources).append("terrain.png").toString();
+		return Utils.getResource("terrain.png");
 	}
 	
     private static Field parentKeepInventoryField = Utils.getField(BlockFurnace.class, "keepFurnaceInventory", "c");
