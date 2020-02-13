@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.src.*;
-import net.minecraft.src.forge.ITextureProvider;
-import net.minecraft.src.forge.IUseItemFirst;
-import net.minecraft.src.nfc.Core;
+import net.minecraft.src.forge.*;
 import net.minecraft.src.nfc.Utils;
-import net.minecraft.src.nfc.props.PropsItem;
-import net.minecraft.src.nfc.props.PropsItemToolMaterial;
+import net.minecraft.src.nfc.props.*;
 
 public class ItemMulti extends Item implements ITextureProvider, IUseItemFirst  {
 	private final List<PropsItem> propsList = new ArrayList<PropsItem>();

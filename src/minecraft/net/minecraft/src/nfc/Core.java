@@ -1,12 +1,5 @@
 package net.minecraft.src.nfc;
 
-import java.io.File;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 import net.minecraft.src.forge.MinecraftForgeClient;
 import net.minecraft.src.nfc.block.*;
@@ -116,8 +109,6 @@ public class Core {
 		FurnaceManager.instance.addSmelting(ORE_URANINITE.getItemStack(), URANIUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_PLATINUM.getItemStack(), PLATINUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_BORON.getItemStack(), BORON.getItemStack());
-		
-		soundManager.addSound(SoundManagerNFC.wrench);
 		
 		//Prevent gems from being named 'Gem Ingot'
 		RUBY.addLocalisation(RUBY.NAME);

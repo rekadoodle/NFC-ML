@@ -4,7 +4,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Material;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.forge.ITextureProvider;
-import net.minecraft.src.nfc.Core;
 import net.minecraft.src.nfc.Utils;
 
 public class BlockScaffold extends Block implements ITextureProvider {

@@ -1,12 +1,6 @@
 package net.minecraft.src.nfc;
 
 import java.io.File;
-import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.SoundManager;
 import net.minecraft.src.SoundPool;
 import net.minecraft.src.SoundPoolEntry;
@@ -14,6 +8,7 @@ import net.minecraft.src.SoundPoolEntry;
 public class SoundManagerNFC {
 
 	public final static String wrench = "wrench.ogg";
+	
 	public SoundManager mcSoundManager;
 	public SoundPool soundPool;
 	
@@ -23,13 +18,12 @@ public class SoundManagerNFC {
 	
 	public void init() {
 		this.mcSoundManager = Utils.mc.sndManager;
-		try {
-			this.soundPool = (SoundPool) soundPoolField.get(Utils.mc.sndManager);
-		} 
-		catch (Exception e) { e.printStackTrace(); }
+		this.soundPool = soundPoolField.get(mcSoundManager);
+		
+		this.addSound(wrench);
 	}
 	
-	private Field soundPoolField = Utils.getField(SoundManager.class, "soundPoolSounds", "b");
+	private Utils.EasyField<SoundPool> soundPoolField = new Utils.EasyField<SoundPool>(SoundManager.class, "soundPoolSounds", "b");
 	
 	public void addSound(String s) 
 	{
@@ -45,7 +39,6 @@ public class SoundManagerNFC {
 		if(this.mcSoundManager != Utils.mc.sndManager) 
 		{
 			this.init();
-			this.addSound(s);
 		}
 		String soundName = new StringBuilder().append("nfc.").append(s.substring(0, s.indexOf(".")).replaceAll("/", ".")).toString();
 		if(soundPool.getRandomSoundFromSoundPool(soundName) == null) 

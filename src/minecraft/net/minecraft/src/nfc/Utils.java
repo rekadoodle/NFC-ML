@@ -1,7 +1,6 @@
 package net.minecraft.src.nfc;
 
 import java.io.File;
-import java.io.InputStream;
 import java.lang.reflect.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,36 +16,20 @@ import net.minecraft.src.*;
 public class Utils {
 
 	public static final Minecraft mc = ModLoader.getMinecraftInstance();
-	private static final Field modifiersField = getField(Field.class, "modifiers");
-	private static final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput", "e");
-	private static final Field timerField = Utils.getField(Minecraft.class, "timer", "T");
+	private static final EasyField<Integer> modifiersField = new EasyField<Integer>(Field.class, "modifiers");
+	private static final EasyField<ItemStack> recipeOutputField = new EasyField<ItemStack>(ShapedRecipes.class, "recipeOutput", "e");
+	private static final EasyField<Timer> timerField = new EasyField<Timer>(Minecraft.class, "timer", "T");
 	private static Timer timer;
 	
 	private static final Map<String, String> loadedResources = new HashMap<String, String>();
 	private static final List<String> missingResources = new ArrayList<String>();
 	private static final String resourcesFolder = "/nfc/resources/";
-
-	// Used for easy reflection with obfuscated or regular fields
-	public static final Field getField(Class<?> target, String... names) {
-		for (Field field : target.getDeclaredFields()) {
-			for (String name : names) {
-				if (field.getName() == name) {
-					field.setAccessible(true);
-					return field;
-				}
-			}
-		}
-		return null;
-	}
 	
 	public static void replaceBlock(Block newBlock, String ...fields) {
-        try {
-    		Field blockField = getField(Block.class, fields);
-			modifiersField.setInt(blockField, blockField.getModifiers() & ~Modifier.FINAL);
-			blockField.set(null, newBlock);
-			Block.blocksList[newBlock.blockID] = newBlock;
-        } 
-        catch (Exception e) { e.printStackTrace(); }
+		EasyField<Block> blockField = new EasyField<Block>(Block.class, fields);
+		modifiersField.set(blockField, blockField.field.getModifiers() & ~Modifier.FINAL);
+		blockField.set(newBlock);
+		Block.blocksList[newBlock.blockID] = newBlock;
 	}
 	
 	public static int clearBlockID(Block block) {
@@ -64,10 +47,7 @@ public class Utils {
 		for(IRecipe recipe : recipes) {
 			if(recipe instanceof ShapedRecipes) {
 				if(recipe.getRecipeOutput().isItemEqual(vanilla)) {
-					try {
-						recipeOutput.set(recipe, newitems);
-					} 
-					catch (Exception e) { e.printStackTrace(); }
+					recipeOutputField.set(recipe, newitems);
 				}
 			}
 		}
@@ -91,10 +71,7 @@ public class Utils {
 	
 	public static float renderPartialTicks() {
 		if(timer == null) {
-			try {
-				timer = (Timer) timerField.get(Utils.mc);
-			}
-			catch (Exception e) { e.printStackTrace(); } 
+			timer = timerField.get(Utils.mc);
 		}
 		return timer.renderPartialTicks;
 	}
@@ -132,8 +109,64 @@ public class Utils {
 		}
 		else  {
 			missingResources.add(resource);
-			System.out.println("NFC-ML ERROR: Missing file " + new File("bin\\minecraft.jar").getAbsolutePath().replace("\\", "/") + location);
+			logError("Missing file " + new File("bin\\minecraft.jar").getAbsolutePath().replace("\\", "/") + location);
 			return false;
 		}
+	}
+	
+	public static void logError(String... lines) {
+		System.out.println(new StringBuilder().append("NFC-ML ERROR: ").append(lines[0]).toString());
+		for (String message : lines) {
+			if(message == lines[0]) continue;
+			System.out.println(new StringBuilder().append('\t').append(message).toString());
+		}
+	}
+	
+	public static class EasyField<T> {
+		
+		public final Field field;
+		
+		public EasyField(Class<?> target, String... names) {
+			for (Field field : target.getDeclaredFields()) {
+				for (String name : names) {
+					if (field.getName() == name) {
+						field.setAccessible(true);
+						this.field = field;
+						return;
+					}
+				}
+			}
+			this.field = null;
+			logError("Failed to located field " + names[0] + " in class " + target.getSimpleName());
+		}
+		
+		public boolean exists() {
+			return field != null;
+		}
+		
+		@SuppressWarnings("unchecked")
+		public T get(Object instance) {
+			try {
+				return (T) field.get(instance);
+			}
+			catch (Exception e) { e.printStackTrace(); }
+			return null;
+		}
+		
+		public T get() {
+			return this.get(null);
+		}
+		
+		public void set(Object instance, T value) {
+			try {
+				field.set(instance, value);
+			} 
+			catch (Exception e) { e.printStackTrace(); }
+		}
+		
+		public void set(T value) {
+			this.set(null, value);
+		}
+		
 	}
 }

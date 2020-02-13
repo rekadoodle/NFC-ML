@@ -2,7 +2,6 @@ package net.minecraft.src.nfc.item;
 
 import net.minecraft.src.*;
 import net.minecraft.src.forge.*;
-import net.minecraft.src.nfc.Core;
 import net.minecraft.src.nfc.Utils;
 import net.minecraft.src.nfc.props.PropsItemToolMaterial;
 

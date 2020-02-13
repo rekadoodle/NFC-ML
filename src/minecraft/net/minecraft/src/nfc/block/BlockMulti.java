@@ -6,7 +6,6 @@ import java.util.Random;
 
 import net.minecraft.src.*;
 import net.minecraft.src.forge.*;
-import net.minecraft.src.nfc.Core;
 import net.minecraft.src.nfc.Utils;
 import net.minecraft.src.nfc.item.ItemBlockNFC;
 import net.minecraft.src.nfc.props.PropsBlock;

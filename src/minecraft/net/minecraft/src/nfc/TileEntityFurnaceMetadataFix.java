@@ -1,7 +1,5 @@
 package net.minecraft.src.nfc;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.src.*;
 
 public class TileEntityFurnaceMetadataFix extends TileEntityFurnace {
@@ -11,7 +9,8 @@ public class TileEntityFurnaceMetadataFix extends TileEntityFurnace {
 	}
 	
 	public TileEntityFurnaceMetadataFix(int slotCount) {
-		this.setParentFurnaceItemStacks(new ItemStack[slotCount]);
+		this.furnaceItemStacks = new ItemStack[slotCount];
+		parentFurnaceItemStacksField.set(this, furnaceItemStacks);
 	}
 	
 	@Override
@@ -71,14 +70,14 @@ public class TileEntityFurnaceMetadataFix extends TileEntityFurnace {
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		furnaceItemStacks = this.getParentFurnaceItemStacks();
+		furnaceItemStacks = parentFurnaceItemStacksField.get(this);
 		currentItemBurnTime = getItemBurnTime(furnaceItemStacks[this.getFuelSlot()]);
 		checkRecipeOnTick = true;
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		this.setParentFurnaceItemStacks(furnaceItemStacks);
+		parentFurnaceItemStacksField.set(this, furnaceItemStacks);
 		super.writeToNBT(nbttagcompound);
 	}
 	
@@ -266,25 +265,9 @@ public class TileEntityFurnaceMetadataFix extends TileEntityFurnace {
         }
 	}
 	
-	public void setParentFurnaceItemStacks(ItemStack[] furnaceItemStacks) {
-		this.furnaceItemStacks = furnaceItemStacks;
-		try {
-			 parentFurnaceItemStacksField.set(this, furnaceItemStacks);
-		} 
-		catch (Exception e) { e.printStackTrace(); }
-	}
-	
-	public ItemStack[] getParentFurnaceItemStacks() {
-		try {
-			return (ItemStack[]) parentFurnaceItemStacksField.get(this);
-		} 
-		catch (Exception e) { e.printStackTrace(); }
-		return null;
-	}
-	
 	protected ItemStack furnaceItemStacks[] = new ItemStack[3];
 	protected boolean checkRecipeOnTick = false;
 	protected boolean cooking = false;
 	public int requiredTime = 200;
-	private static Field parentFurnaceItemStacksField = Utils.getField(TileEntityFurnace.class, "furnaceItemStacks", "i");
+	private static Utils.EasyField<ItemStack[]> parentFurnaceItemStacksField = new Utils.EasyField<ItemStack[]>(TileEntityFurnace.class, "furnaceItemStacks", "i");
 }

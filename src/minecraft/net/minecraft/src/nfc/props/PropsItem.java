@@ -1,23 +1,12 @@
 package net.minecraft.src.nfc.props;
 
-import java.lang.reflect.Field;
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFurnace;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntityRenderer;
-import net.minecraft.src.Gui;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.ScaledResolution;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.World;
-import net.minecraft.src.nfc.Core;
-import net.minecraft.src.nfc.SoundManagerNFC;
-import net.minecraft.src.nfc.Utils;
+import net.minecraft.src.*;
+import net.minecraft.src.nfc.*;
 import net.minecraft.src.nfc.block.BlockBrickOven;
 
 public class PropsItem extends Props {
@@ -85,7 +74,7 @@ public class PropsItem extends Props {
 	public static class Telescope extends PropsItem {
 		
 		private boolean zooming;
-		private Field cameraZoomField = Utils.getField(EntityRenderer.class, "cameraZoom", "E");
+		private Utils.EasyField<Double> cameraZoomField = new Utils.EasyField<Double>(EntityRenderer.class, "cameraZoom", "E");
 
 		public Telescope(String name, int textureIndex) {
 			super(name, textureIndex);
@@ -98,10 +87,9 @@ public class PropsItem extends Props {
 		
 		public void setZoom(boolean bool) {
 			zooming = bool;
-			try {
-				cameraZoomField.set(Utils.mc.entityRenderer, bool ? 8.0F : 1.0F);
-			} 
-			catch (Exception e) { e.printStackTrace(); } 
+			if(cameraZoomField.exists()) {
+				cameraZoomField.set(Utils.mc.entityRenderer, bool ? 8.0D : 1.0D);
+			}
 		}
 		
 		public boolean isZooming() {

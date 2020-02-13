@@ -1,14 +1,8 @@
 package net.minecraft.src.nfc.props;
 
 import net.minecraft.src.*;
-import net.minecraft.src.nfc.Core;
 import net.minecraft.src.nfc.Utils;
-import net.minecraft.src.nfc.item.ItemArmorNFC;
-import net.minecraft.src.nfc.item.ItemAxeNFC;
-import net.minecraft.src.nfc.item.ItemHoeNFC;
-import net.minecraft.src.nfc.item.ItemPickaxeNFC;
-import net.minecraft.src.nfc.item.ItemSpadeNFC;
-import net.minecraft.src.nfc.item.ItemSwordNFC;
+import net.minecraft.src.nfc.item.*;
 
 public class PropsItemToolMaterial extends PropsItem {
 	
