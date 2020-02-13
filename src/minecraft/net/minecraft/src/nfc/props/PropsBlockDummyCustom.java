@@ -39,5 +39,10 @@ public class PropsBlockDummyCustom extends PropsBlockCustomRenderMulti {
 	public int getMetadataAfterWrench(int metadata) {
 		return metadata;
 	}
+	
+	@Override
+    public boolean isBlockSolidOnSide(int side, int metadata) {
+    	return true;
+    }
 
 }

@@ -133,5 +133,19 @@ public class PropsBlockStairs extends PropsBlockCustomRenderMulti {
 	public void setInvBlockBounds(Block block, int metadata) {
 		//unused
 	}
+	
+	@Override
+    public boolean isBlockSolidOnSide(int side, int metadata) {
+    	if(metadata < 4 && side == 0)
+    		return true;
+    	if(metadata >= 4 && side == 1)
+    		return true;
+    	switch(metadata % 4) {
+    		case 0: return side == 3;
+    		case 1: return side == 4;
+    		case 2: return side == 2;
+    		default: return side == 5;
+    	}
+    }
 
 }

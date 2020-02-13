@@ -21,6 +21,10 @@ public class Utils {
 	private static final Field recipeOutput = Utils.getField(ShapedRecipes.class, "recipeOutput", "e");
 	private static final Field timerField = Utils.getField(Minecraft.class, "timer", "T");
 	private static Timer timer;
+	
+	private static final Map<String, String> loadedResources = new HashMap<String, String>();
+	private static final List<String> missingResources = new ArrayList<String>();
+	private static final String resourcesFolder = "/nfc/resources/";
 
 	// Used for easy reflection with obfuscated or regular fields
 	public static final Field getField(Class<?> target, String... names) {
@@ -132,8 +136,4 @@ public class Utils {
 			return false;
 		}
 	}
-	
-	private static final Map<String, String> loadedResources = new HashMap<String, String>();
-	private static final List<String> missingResources = new ArrayList<String>();
-	private static final String resourcesFolder = "/nfc/resources/";
 }

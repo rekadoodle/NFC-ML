@@ -13,7 +13,7 @@ public class BlockMultiGlass extends BlockMultiTexture {
 	@Override
 	public boolean isOpaqueCube()
     {
-        return false;
+        return true;
     }
 
 	@Override

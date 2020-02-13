@@ -58,5 +58,6 @@ public abstract class PropsBlockCustomRenderMulti extends PropsBlockTexture {
 	public abstract void onBlockPlaced(World world, int x, int y, int z, int side, BlockMultiCustomRender block);
 	public abstract void setBoundingBox(Block block, int metadata);
 	public abstract void setInvBlockBounds(Block block, int metadata);
+	public abstract boolean isBlockSolidOnSide(int side, int metadata);
 	
 }

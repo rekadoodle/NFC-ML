@@ -120,4 +120,10 @@ public class PropsBlockSlabRotatedTexture extends PropsBlockSlab {
 	public String getName(int metadata) {
 		return new StringBuilder().append(super.getName()).append(metadata < 6 ? "" : ".double").toString();
 	}
+	
+	@Override
+    public boolean isBlockSolidOnSide(int side, int metadata) {
+		if(metadata > 5) return true;
+    	return super.isBlockSolidOnSide(side, metadata);
+    }
 }

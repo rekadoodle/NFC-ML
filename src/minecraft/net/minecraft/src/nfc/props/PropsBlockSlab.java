@@ -109,4 +109,9 @@ public class PropsBlockSlab extends PropsBlockCustomRenderMulti {
     		return 0;
     	}
     }
+    
+    @Override
+    public boolean isBlockSolidOnSide(int side, int metadata) {
+    	return side == metadata;
+    }
 }

@@ -140,6 +140,13 @@ public class BlockMultiCustomRender extends BlockMultiTexture implements IWrench
     }
 	
 	@Override
+	public boolean isBlockSolidOnSide(World world, int x, int y, int z, int side) {
+		int metadata = world.getBlockMetadata(x, y, z);
+		PropsBlockCustomRenderMulti blockprops = this.getBlockProps(metadata);
+	    return blockprops.isBlockSolidOnSide(side, metadata - blockprops.block_metadata);
+    }
+	
+	@Override
 	public int quantityDropped(int metadata, Random random)
     {
 		PropsBlock blockprops = this.getBlockProps(metadata);
