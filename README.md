@@ -3,7 +3,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 
 ## Features
 - [x] Ores
-- [ ] Ore Generation
+- [x] Ore Generation
 - [x] Stone Blocks
 - [ ] Crafting/Smelting Recipes
 - [x] Ingots

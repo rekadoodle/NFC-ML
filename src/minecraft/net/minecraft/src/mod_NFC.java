@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.nfc.*;
 import net.minecraft.src.nfc.block.*;
@@ -33,6 +35,12 @@ public class mod_NFC extends BaseMod {
 	public void RenderInvBlock(RenderBlocks renderblocks, Block block, int metadata, int renderType)
     {
 		Core.instance.renderInvBlock(renderblocks, (BlockMultiTexture) block, metadata);
+    }
+	
+	@Override
+	public void GenerateSurface(World world, Random random, int x, int z)
+    {
+		Core.instance.generateSurface(world, random, x, z);
     }
 	
 	//Info for mine_diver's mod menu
