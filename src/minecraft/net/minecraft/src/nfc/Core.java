@@ -13,6 +13,7 @@ import net.minecraft.src.nfc.props.*;
 public class Core {
 
 	public static final Core instance = new Core();
+	public mod_NFC basemod;
 	
 	public String version() {
 		return "v0.1";
@@ -32,7 +33,8 @@ public class Core {
 	}
 
 	public void init(mod_NFC basemod) {
-
+		this.basemod = basemod;
+		
 		ModLoader.SetInGameHook(basemod, true, false);
 		MinecraftForgeClient.registerHighlightHandler(new StairPlacementHighlighter());
 		
@@ -198,220 +200,220 @@ public class Core {
 					|| block == Block.oreLapis || block == Block.oreRedstone || block == Block.oreRedstoneGlowing)
 			world.setBlock(x, y, z, Block.stone.blockID);
 		}
-		
+		int genX;
+		int genY;
+		int genZ;
+		int spawnProbability = rand.nextInt(100);
+		if (spawnProbability <= 3) 
 		{
-			int p = rand.nextInt(100);
-			if (p <= 3) {
-				int i4 = x + rand.nextInt(16);
-				int j7 = rand.nextInt(16);
-				int k10 = z + rand.nextInt(16);
-				(new WorldGenMinable(Block.oreDiamond.blockID, 8)).generate(world, rand, i4, j7, k10);
-			} else if (p == 4) {
-				int k4 = x + rand.nextInt(16);
-				int l7 = rand.nextInt(12);
-				int i11 = z + rand.nextInt(16);
-				(new WorldGenMinableNFC(ORE_OSMIUM, 9)).generate(world, rand, k4, l7, i11);
-			}
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(16);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinable(Block.oreDiamond.blockID, 8)).generate(world, rand, genX, genY, genZ);
+		} 
+		else if (spawnProbability == 4) {
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(12);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_OSMIUM, 9)).generate(world, rand, genX, genY, genZ);
 		}
 
-		{
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(96);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenConcentrated(Block.oreCoal.blockID, 8, 2, 16)).generate(world, rand, k4, l7, i11);
-		}
+		genX = x + rand.nextInt(16);
+		genY = rand.nextInt(96);
+		genZ = z + rand.nextInt(16);
+		(new WorldGenConcentrated(Block.oreCoal.blockID, 8, 2, 16)).generate(world, rand, genX, genY, genZ);
 
 		if (rand.nextInt(2) == 1) {
-			int j4 = x + rand.nextInt(16);
-			int k7 = rand.nextInt(16) + rand.nextInt(16);
-			int l10 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(Block.oreLapis.blockID, 6)).generate(world, rand, j4, k7, l10);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(16) + rand.nextInt(16);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(Block.oreLapis.blockID, 6)).generate(world, rand, genX, genY, genZ);
 		}
 
-		for (int k2 = 0; k2 < 3; k2++) {
-			int l3 = x + rand.nextInt(16);
-			int i7 = rand.nextInt(16);
-			int j10 = z + rand.nextInt(16);
-			(new WorldGenMinable(Block.oreRedstone.blockID, 7)).generate(world, rand, l3, i7, j10);
+		for (int i = 0; i < 3; i++) {
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(16);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinable(Block.oreRedstone.blockID, 7)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(8) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(50);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(ORE_ALUMINUM, 8, 2, 90)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(50);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(ORE_ALUMINUM, 8, 2, 90)).generate(world, rand, genX, genY, genZ);
 		}
 
-		for (int k2 = 0; k2 < (3 + rand.nextInt(2)); k2++) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(50) + 10;
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_TIN, 5)).generate(world, rand, k4, l7, i11);
+		int numberOfSpawns = 3 + rand.nextInt(2);
+		for (int i = 0; i < numberOfSpawns; i++) {
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(50) + 10;
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_TIN, 5)).generate(world, rand, genX, genY, genZ);
 		}
 
-		{
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(50);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_ZINC, 10)).generate(world, rand, k4, l7, i11);
-		}
+		genX = x + rand.nextInt(16);
+		genY = rand.nextInt(50);
+		genZ = z + rand.nextInt(16);
+		(new WorldGenMinableNFC(ORE_ZINC, 10)).generate(world, rand, genX, genY, genZ);
 
 		if (rand.nextInt(6) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(48);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_LEAD, 12)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(48);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_LEAD, 12)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(8) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(64);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_BISMUTH, 15)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(64);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_BISMUTH, 15)).generate(world, rand, genX, genY, genZ);
 		}
 
-		{
-			for (int k2 = 0; k2 < 3; k2++) {
-				int k4 = x + rand.nextInt(16);
-				int l7 = rand.nextInt(36) + 32;
-				int i11 = z + rand.nextInt(16);
-				(new WorldGenMinableCloud(ORE_COPPER, 4, 1, 16)).generate(world, rand, k4, l7, i11);
-			}
+		for (int i = 0; i < 3; i++) {
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(36) + 32;
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(ORE_COPPER, 4, 1, 16)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(4) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(70);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(ORE_COPPER, 5, 1, 40)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(70);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(ORE_COPPER, 5, 1, 40)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(64) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(60);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(Block.oreGold.blockID, 10, 0, 32)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(60);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(Block.oreGold.blockID, 10, 0, 32)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(20) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(24) + 4;
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenConcentrated(ORE_ANTHRACITE, 10, 3, 10)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(24) + 4;
+			genZ = z + rand.nextInt(16);
+			(new WorldGenConcentrated(ORE_ANTHRACITE, 10, 3, 10)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(5) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(40);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(ORE_BORON, 4, 0, 10)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(40);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(ORE_BORON, 4, 0, 10)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(16) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(50);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenConcentrated(ORE_SILVER, 12, 6, 8)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(50);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenConcentrated(ORE_SILVER, 12, 6, 8)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(12) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(24) + rand.nextInt(24);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(ORE_NICKEL, 6, 4, 24)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(24) + rand.nextInt(24);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(ORE_NICKEL, 6, 4, 24)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(20) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(40);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_PLATINUM, 18)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(40);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_PLATINUM, 18)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(42) <= 2) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(24) + rand.nextInt(8) + 2;
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(Block.oreIron.blockID, 16, 2, 200)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(24) + rand.nextInt(8) + 2;
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(Block.oreIron.blockID, 16, 2, 200)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(16) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(32);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_COBALT, 16)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(32);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_COBALT, 16)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(5) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(18) + 2;
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_CHROME, 10)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(18) + 2;
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_CHROME, 10)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(15) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(24);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(ORE_SILICON, 5, 4, 15)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(24);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(ORE_SILICON, 5, 4, 15)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(25) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(16);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableCloud(ORE_TITANIUM, 8, 3, 25)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(16);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableCloud(ORE_TITANIUM, 8, 3, 25)).generate(world, rand, genX, genY, genZ);
 		}
 
-		{
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(6) + 3;
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_TUNGSTEN, 1)).generate(world, rand, k4, l7, i11);
-		}
+		genX = x + rand.nextInt(16);
+		genY = rand.nextInt(6) + 3;
+		genZ = z + rand.nextInt(16);
+		(new WorldGenMinableNFC(ORE_TUNGSTEN, 1)).generate(world, rand, genX, genY, genZ);
 
-		//{
-		//	int i3 = x + rand.nextInt(16);
-		//	int j6 = rand.nextInt(3) + 2;
-		//	int k9 = z + rand.nextInt(16);
-		//	(new WorldGenMinableNFC(NFC.FakeBedrock.blockID, 1)).generate(world, rand, i3, j6, k9);
-		//}
+		// {
+		// int i3 = x + rand.nextInt(16);
+		// int j6 = rand.nextInt(3) + 2;
+		// int k9 = z + rand.nextInt(16);
+		// (new WorldGenMinableNFC(NFC.FakeBedrock.blockID, 1)).generate(world, rand,
+		// i3, j6, k9);
+		// }
 
 		if (rand.nextInt(32) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(32);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_URANINITE, 16)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(32);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_URANINITE, 16)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(10) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(32);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_MAGNETITE, 5)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(32);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_MAGNETITE, 5)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(7) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(16);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_RUBY, 1)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(16);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_RUBY, 1)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(7) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(16);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_EMERALD, 1)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(16);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_EMERALD, 1)).generate(world, rand, genX, genY, genZ);
 		}
 
 		if (rand.nextInt(7) == 1) {
-			int k4 = x + rand.nextInt(16);
-			int l7 = rand.nextInt(16);
-			int i11 = z + rand.nextInt(16);
-			(new WorldGenMinableNFC(ORE_SAPPHIRE, 1)).generate(world, rand, k4, l7, i11);
+			genX = x + rand.nextInt(16);
+			genY = rand.nextInt(16);
+			genZ = z + rand.nextInt(16);
+			(new WorldGenMinableNFC(ORE_SAPPHIRE, 1)).generate(world, rand, genX, genY, genZ);
 		}
     }
+
+	public void modsLoaded() {
+		Utils.modsLoaded(basemod);
+	}
 	
 	//wood
 	//stone
@@ -495,8 +497,8 @@ public class Core {
 		new BlockMulti(blockID, Material.rock, ORE_COPPER, ORE_TIN, ORE_ZINC, ORE_ALUMINUM, ORE_LEAD, ORE_BISMUTH,
 				ORE_BORON, ORE_SILVER, ORE_CHROME, ORE_NICKEL, ORE_PLATINUM, ORE_TUNGSTEN, ORE_SILICON, ORE_COBALT,
 				ORE_MAGNETITE, ORE_TITANIUM);
-		new BlockMulti(blockID + 1, Material.rock, ORE_ANTHRACITE, ORE_RUBY, ORE_SAPPHIRE, ORE_EMERALD, ORE_OSMIUM,
-				STONE_BLOCK, STONE_BLOCK_OFFSET_XY, STONE_BLOCK_OFFSET_X, STONE_BLOCK_OFFSET_Y, STONE_BRICK,
+		new BlockMulti(blockID + 1, Material.rock, ORE_ANTHRACITE, ORE_RUBY, ORE_SAPPHIRE, ORE_EMERALD, ORE_URANINITE,
+				ORE_OSMIUM, STONE_BLOCK, STONE_BLOCK_OFFSET_XY, STONE_BLOCK_OFFSET_X, STONE_BLOCK_OFFSET_Y, STONE_BRICK,
 				STONE_BRICK_SMALL);
 	}
 
@@ -518,4 +520,5 @@ public class Core {
 
 	public static final Block BRICKOVEN_IDLE = new BlockBrickOven(230, false, 32);
 	public static final Block BRICKOVEN_ACTIVE = new BlockBrickOven(231, true, 34);
+
 }

@@ -97,10 +97,6 @@ public class BrickOvenManager {
 		return 0;
 	}
 
-	public List<Recipe> getRecipeList() {
-		return recipes;
-	}
-
 	public static final BrickOvenManager instance = new BrickOvenManager();
 	private List<Recipe> recipes = new ArrayList<Recipe>();
 	private List<Fuel> fuels = new ArrayList<Fuel>();

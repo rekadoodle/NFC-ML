@@ -12,6 +12,7 @@ import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
+import net.minecraft.src.nfc.references.HandlerHMI;
 
 public class Utils {
 
@@ -120,6 +121,32 @@ public class Utils {
 			System.out.println(new StringBuilder().append('\t').append(message).toString());
 		}
 	}
+	
+	public static boolean classExists(String className) {
+		try {
+			Class.forName(className);
+			return true;
+		} 
+		catch (ClassNotFoundException e) {
+			return false; 
+		}
+	}
+	
+	public static void modsLoaded(BaseMod basemod) {
+		if(ModLoader.isModLoaded(mod_NFC.class.getPackage().getName() + ".mod_HowManyItems")) {
+			hmiHandler = (HandlerHMI) getHandler("hmi.ConcreteHandlerHMI");
+			hmiHandler.init(basemod);
+		}
+	}
+	
+	private static Object getHandler(String path) {
+		try { 
+			return Utils.class.getClassLoader().loadClass(Utils.class.getPackage().getName() + ".references." + path).newInstance(); 
+		}
+		catch (Throwable e) { e.printStackTrace(); return null; } 
+	}
+	
+	public static HandlerHMI hmiHandler;
 	
 	public static class EasyField<T> {
 

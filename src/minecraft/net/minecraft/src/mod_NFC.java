@@ -43,6 +43,12 @@ public class mod_NFC extends BaseMod {
 		Core.instance.generateSurface(world, random, x, z);
     }
 	
+	@Override
+	public void ModsLoaded()
+    {
+		Core.instance.modsLoaded();
+    }
+	
 	//Info for mine_diver's mod menu
 	public String Description() {
 		return Core.instance.description();

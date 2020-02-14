@@ -15,7 +15,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [x] Windows
 - [x] Slabs/Stairs
 - [x] Brick Oven
-- [ ] Brick Oven HMI support
+- [x] Brick Oven HMI support
 - [x] Telescope
 - [x] Wrench
 - [x] Custom Sounds
@@ -45,6 +45,7 @@ Follow this if you just want to play the mod. There are no releases yet, but you
    5. Download [mine_diver's Fixed Forge patch](http://www.mediafire.com/file/kmf47og8hf1c7ib) and extract it into the root of your MCP folder.
 2. Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract the src folder into the root of your MCP folder.
 3. OPTIONAL: To get sounds/textures working, put the nfc folder into `/jars/bin/minecraft.jar` or `/eclipse/Client/bin`
+4. Delete any packages within the net.minecraft.src.references package that you do not have installed to remove any errors.
 
 ## License
 

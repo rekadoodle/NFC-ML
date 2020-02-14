@@ -34,6 +34,7 @@ public class BlockMulti extends Block implements ITextureProvider, ISpecialResis
 			}
 		}
 		ModLoader.RegisterBlock(this, ItemBlockNFC.class);
+		this.setBlockName("nfc.multi");
 	}
 
 	public PropsBlock getBlockProps(int metadata) {

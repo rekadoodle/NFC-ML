@@ -97,7 +97,7 @@ public class TileEntityFurnaceMetadataFix extends TileEntityFurnace {
         if(!worldObj.multiplayerWorld)
         {
             boolean inventoryChanged = false;
-            if(checkRecipeOnTick) {
+            if(checkRecipeOnTick || (!isBurning() && lastTickBurning)) {
             	checkRecipeOnTick = false;
             	if(cooking = canSmelt()) {
             		if(!isBurning())
