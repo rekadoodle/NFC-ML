@@ -16,7 +16,6 @@ import net.minecraft.src.*;
 public class Utils {
 
 	public static final Minecraft mc = ModLoader.getMinecraftInstance();
-	private static final EasyField<Integer> modifiersField = new EasyField<Integer>(Field.class, "modifiers");
 	private static final EasyField<ItemStack> recipeOutputField = new EasyField<ItemStack>(ShapedRecipes.class, "recipeOutput", "e");
 	private static final EasyField<Timer> timerField = new EasyField<Timer>(Minecraft.class, "timer", "T");
 	private static Timer timer;
@@ -27,7 +26,7 @@ public class Utils {
 	
 	public static void replaceBlock(Block newBlock, String ...fields) {
 		EasyField<Block> blockField = new EasyField<Block>(Block.class, fields);
-		modifiersField.set(blockField, blockField.field.getModifiers() & ~Modifier.FINAL);
+		blockField.removeFinalModifier();
 		blockField.set(newBlock);
 		Block.blocksList[newBlock.blockID] = newBlock;
 	}
@@ -123,7 +122,8 @@ public class Utils {
 	}
 	
 	public static class EasyField<T> {
-		
+
+		private static final EasyField<Integer> modifiersField = new EasyField<Integer>(Field.class, "modifiers");
 		public final Field field;
 		
 		public EasyField(Class<?> target, String... names) {
@@ -166,6 +166,10 @@ public class Utils {
 		
 		public void set(T value) {
 			this.set(null, value);
+		}
+		
+		public void removeFinalModifier() {
+			modifiersField.set(field, field.getModifiers() & ~Modifier.FINAL);
 		}
 		
 	}

@@ -9,7 +9,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [x] Ingots
 - [ ] Metal Blocks
 - [x] Tools & Armor
-- [ ] Vanilla tools re-balance
+- [x] Vanilla tools re-balance
 - [ ] Textures
 - [x] Stone Blocks
 - [x] Windows

@@ -1,6 +1,8 @@
 package net.minecraft.src.nfc;
 
 import net.minecraft.src.*;
+import net.minecraft.src.forge.ForgeHooks;
+import net.minecraft.src.forge.MinecraftForge;
 import net.minecraft.src.forge.MinecraftForgeClient;
 import net.minecraft.src.nfc.block.*;
 import net.minecraft.src.nfc.item.ItemMulti;
@@ -109,11 +111,52 @@ public class Core {
 		FurnaceManager.instance.addSmelting(ORE_URANINITE.getItemStack(), URANIUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_PLATINUM.getItemStack(), PLATINUM.getItemStack());
 		FurnaceManager.instance.addSmelting(ORE_BORON.getItemStack(), BORON.getItemStack());
+		FurnaceManager.instance.addSmelting(ORE_CHROME.getItemStack(), CHROME.getItemStack());
 		
 		//Prevent gems from being named 'Gem Ingot'
 		RUBY.addLocalisation(RUBY.NAME);
 		SAPPHIRE.addLocalisation(SAPPHIRE.NAME);
 		EMERALD.addLocalisation(EMERALD.NAME);
+		
+		//Override vanilla tool tier settings
+		new Utils.EasyField<Boolean>(ForgeHooks.class, "toolInit").set(true);
+		
+		MinecraftForge.setToolClass(Item.pickaxeWood, "pickaxe", 0);
+		MinecraftForge.setToolClass(Item.pickaxeStone, "pickaxe", 0);
+		MinecraftForge.setToolClass(Item.pickaxeSteel, "pickaxe", 3);
+		MinecraftForge.setToolClass(Item.pickaxeGold, "pickaxe", 2);
+		MinecraftForge.setToolClass(Item.pickaxeDiamond, "pickaxe", 5);
+
+		MinecraftForge.setToolClass(Item.axeWood, "axe", 0);
+		MinecraftForge.setToolClass(Item.axeStone, "axe", 0);
+		MinecraftForge.setToolClass(Item.axeSteel, "axe", 3);
+		MinecraftForge.setToolClass(Item.axeGold, "axe", 2);
+		MinecraftForge.setToolClass(Item.axeDiamond, "axe", 5);
+
+		MinecraftForge.setToolClass(Item.shovelWood, "shovel", 0);
+		MinecraftForge.setToolClass(Item.shovelStone, "shovel", 0);
+		MinecraftForge.setToolClass(Item.shovelSteel, "shovel", 3);
+		MinecraftForge.setToolClass(Item.shovelGold, "shovel", 2);
+		MinecraftForge.setToolClass(Item.shovelDiamond, "shovel", 5);
+
+		MinecraftForge.setBlockHarvestLevel(Block.obsidian, "pickaxe", 3);
+		MinecraftForge.setBlockHarvestLevel(Block.oreDiamond, "pickaxe", 4);
+		MinecraftForge.setBlockHarvestLevel(Block.blockDiamond, "pickaxe", 4);
+		MinecraftForge.setBlockHarvestLevel(Block.oreIron, "pickaxe", 2);
+		MinecraftForge.setBlockHarvestLevel(Block.blockSteel, "pickaxe", 2);
+		MinecraftForge.setBlockHarvestLevel(Block.oreLapis, "pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(Block.blockLapis, "pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(Block.oreRedstone, "pickaxe", 3);
+		MinecraftForge.setBlockHarvestLevel(Block.oreRedstoneGlowing, "pickaxe", 3);
+		MinecraftForge.removeBlockEffectiveness(Block.oreRedstone, "pickaxe");
+		MinecraftForge.removeBlockEffectiveness(Block.oreRedstoneGlowing, "pickaxe");
+
+		for (Block block : new Block[] { Block.cobblestone, Block.stairDouble, Block.stairSingle, Block.stone,
+				Block.sandStone, Block.cobblestoneMossy, Block.oreIron, Block.blockSteel, Block.oreCoal,
+				Block.blockGold, Block.oreGold, Block.oreDiamond, Block.blockDiamond, Block.ice, Block.netherrack,
+				Block.oreGold, Block.blockGold }) {
+			MinecraftForge.setBlockHarvestLevel(block, "pickaxe", 0);
+		}
 	}
 	
 	public SoundManagerNFC soundManager = new SoundManagerNFC();
