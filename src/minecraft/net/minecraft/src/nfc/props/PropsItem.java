@@ -59,13 +59,22 @@ public class PropsItem extends Props {
 			if(block instanceof IWrenchable) {
 				return ((IWrenchable)block).onWrenched(world, x, y, z);
 			}
-			else if(block instanceof BlockBrickOven) {
-				world.markBlockAsNeedsUpdate(x, y, z);
-				return world.setBlockMetadata(x, y, z, (world.getBlockMetadata(x, y, z) + 1) % 6);
-			}
 			else if(block instanceof BlockFurnace) {
 				world.markBlockAsNeedsUpdate(x, y, z);
 				return world.setBlockMetadata(x, y, z, (((world.getBlockMetadata(x, y, z) - 1)) % 4) + 2);
+			}
+			else {
+				int variations = 0;
+				if(block instanceof BlockBrickOven) {
+					variations = 6;
+				}
+				else if(block instanceof BlockPumpkin) {
+					variations = 5;
+				}
+				if(variations > 0) {
+					world.markBlockAsNeedsUpdate(x, y, z);
+					return world.setBlockMetadata(x, y, z, (world.getBlockMetadata(x, y, z) + 1) % variations);
+				}
 			}
 			return false;
 		}
@@ -87,7 +96,7 @@ public class PropsItem extends Props {
 		
 		public void setZoom(boolean bool) {
 			zooming = bool;
-			if(cameraZoomField.exists()) {
+			if(!Utils.betatweaksHandler.entityRendererOverrideEnabled(bool) && cameraZoomField.exists()) {
 				cameraZoomField.set(Utils.mc.entityRenderer, bool ? 8.0D : 1.0D);
 			}
 		}

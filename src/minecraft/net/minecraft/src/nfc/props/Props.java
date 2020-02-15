@@ -1,8 +1,11 @@
 package net.minecraft.src.nfc.props;
 
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.ModLoader;
+import net.minecraft.src.*;
 
+/**
+ * Describes properties for a Block or Item
+ * This provides a more flexible approach to having multiple blocks/items per ID
+ */
 public abstract class Props {
 
 	private final int TEXTURE_INDEX;
@@ -25,6 +28,9 @@ public abstract class Props {
 	
 	protected abstract String getNamePrefix();
 	
+	/**
+	 * @return new ItemStack with the id and metadata of this Props
+	 */
 	public ItemStack getItemStack() {
 		return this.getItemStack(1);
 	}
@@ -33,5 +39,8 @@ public abstract class Props {
 		return this.TEXTURE_INDEX;
 	}
 	
-	public abstract ItemStack getItemStack(int amount);
+	/**
+	 * @return new ItemStack with the id and metadata of this Props
+	 */
+	public abstract ItemStack getItemStack(int stackSize);
 }

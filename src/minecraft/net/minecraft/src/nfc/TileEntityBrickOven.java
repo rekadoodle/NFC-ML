@@ -21,7 +21,11 @@ public class TileEntityBrickOven extends TileEntityFurnaceMetadataFix {
 
 	@Override
 	protected ItemStack getResultItemStack() {
-		return BrickOvenManager.instance.findMatchingRecipe(furnaceItemStacks, this);
+		BrickOvenManager.Recipe recipe = BrickOvenManager.instance.findMatchingRecipe(furnaceItemStacks);
+		if(recipe == null) 
+			return null;
+		this.setTime(recipe.cookTime);
+		return recipe.output;
 	}
 
 	public void setTime(int i) {

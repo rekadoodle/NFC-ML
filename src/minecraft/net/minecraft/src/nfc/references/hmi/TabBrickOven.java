@@ -40,19 +40,19 @@ public class TabBrickOven extends TabSmelting {
             	BrickOvenManager.Recipe recipe = filteredRecipes.get(k);
             	
             	int slotIndex = 0;
-            	for (int i = 0; i < recipe.recipeItems.length; i++) {
+            	for (int i = 0; i < recipe.inputs.length; i++) {
             		int currentSlot = slotIndex;
-            		items[j][slotIndex++] = recipe.recipeItems[i].copy();
+            		items[j][slotIndex++] = recipe.inputs[i].copy();
             		while(items[j][currentSlot].stackSize > 1) {
             			items[j][currentSlot].stackSize--;
             			items[j][slotIndex++] = new ItemStack(items[j][currentSlot].getItem(), 1, items[j][currentSlot].getItemDamage());
             		}
             		
             	}
-            	items[j][10] = recipe.recipeOutput.copy();
+            	items[j][10] = recipe.output.copy();
             	BrickOvenManager.Fuel fuel = fuelList.get(rand.nextInt(fuelList.size()));
             	items[j][9] = fuel.itemstack.copy();
-            	items[j][9].stackSize = recipe.time / fuel.burnTime;
+            	items[j][9].stackSize = recipe.cookTime / fuel.burnTime;
              }
 
             if(items[j][10] == null && recipesOnThisPage > j) {
@@ -78,11 +78,11 @@ public class TabBrickOven extends TabSmelting {
 			if(filter == null) {
 				filteredRecipes.add(recipe);
 			}
-			else if(!getUses && recipe.recipeOutput.isItemEqual(filter)) {
+			else if(!getUses && recipe.output.isItemEqual(filter)) {
 				filteredRecipes.add(recipe);
 			}
 			else if(getUses){
-				for(ItemStack item : recipe.recipeItems) {
+				for(ItemStack item : recipe.inputs) {
 					if(item.isItemEqual(filter)) {
 						filteredRecipes.add(recipe);
 						break;

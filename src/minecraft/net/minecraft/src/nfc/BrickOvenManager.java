@@ -9,14 +9,14 @@ public class BrickOvenManager {
 	public class Recipe {
 		
 		public Recipe(ItemStack recipeOutput, int time, ItemStack... recipeItems) {
-			this.recipeOutput = recipeOutput;
-			this.recipeItems = recipeItems;
-			this.time = time;
+			this.output = recipeOutput;
+			this.inputs = recipeItems;
+			this.cookTime = time;
 		}
 		
 		public boolean matches(ItemStack[] itemstacks) {
 			List<ItemStack> recipeList = new ArrayList<ItemStack>();
-			for(ItemStack recipeItem : recipeItems) {
+			for(ItemStack recipeItem : inputs) {
 				recipeList.add(recipeItem.copy());
 			}
 			for(int i = 0; i < 9; i++) {
@@ -38,9 +38,9 @@ public class BrickOvenManager {
 			return recipeList.isEmpty();
 		}
 
-		public final ItemStack recipeOutput;
-		public final ItemStack[] recipeItems;
-		public final int time;
+		public final ItemStack output;
+		public final ItemStack[] inputs;
+		public final int cookTime;
 	}
 	
 	public class Fuel {
@@ -63,7 +63,7 @@ public class BrickOvenManager {
 		this.addFuel(new ItemStack(Block.planks), 100);
 		this.addFuel(new ItemStack(Item.coal), 1600);
 		this.addFuel(new ItemStack(Item.coal, 1, 1), 800);
-		this.addFuel(Core.ANTHRICITE.getItemStack(), 6400);
+		this.addFuel(Core.ANTHRACITE.getItemStack(), 6400);
 	}
 
 	public void addShapelessRecipe(ItemStack result, int timeToSmelt, ItemStack... recipeItems) {
@@ -74,12 +74,10 @@ public class BrickOvenManager {
 		fuels.add(new Fuel(itemstack, burnTime));
 	}
 
-	public ItemStack findMatchingRecipe(ItemStack[] itemstacks, TileEntityBrickOven tileentity) {
+	public Recipe findMatchingRecipe(ItemStack[] itemstacks) {
 		for(Recipe recipe : recipes) {
 			if (recipe.matches(itemstacks)) {
-				if(tileentity != null)
-					tileentity.setTime(recipe.time);
-				return recipe.recipeOutput;
+				return recipe;
 			}
 		}
 		return null;

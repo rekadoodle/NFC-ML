@@ -25,16 +25,21 @@ public class ItemMulti extends Item implements ITextureProvider, IUseItemFirst  
 		}
 	}
 	
+	public PropsItem getItemProps(int metadata)
+	{
+		return propsList.get(metadata % propsList.size());
+	}
+	
 	@Override
 	public int getIconFromDamage(int metadata)
     {
-        return propsList.get(metadata).getTextureIndex();
+        return getItemProps(metadata).getTextureIndex();
     }
 	
 	@Override
     public String getItemNameIS(ItemStack itemstack)
     {
-    	return propsList.get(itemstack.getItemDamage()).getName();
+    	return getItemProps(itemstack.getItemDamage()).getName();
     }
 
 	@Override
@@ -45,7 +50,7 @@ public class ItemMulti extends Item implements ITextureProvider, IUseItemFirst  
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {
-		PropsItem itemprop = propsList.get(itemstack.getItemDamage());
+		PropsItem itemprop = getItemProps(itemstack.getItemDamage());
 		if(itemprop instanceof PropsItem.Food) {
 			((PropsItem.Food)itemprop).onItemRightClick(itemstack, world, entityplayer);
 		}
@@ -57,7 +62,7 @@ public class ItemMulti extends Item implements ITextureProvider, IUseItemFirst  
 
 	@Override
 	public boolean onItemUseFirst(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side) {
-		PropsItem itemprop = propsList.get(itemstack.getItemDamage());
+		PropsItem itemprop = getItemProps(itemstack.getItemDamage());
 		if(itemprop instanceof PropsItem.Wrench) {
 			return ((PropsItem.Wrench)itemprop).onItemUseFirst(itemstack, player, world, x, y, z, side);
 		}

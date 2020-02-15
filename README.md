@@ -5,7 +5,6 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [x] Ores
 - [x] Ore Generation
 - [x] Stone Blocks
-- [ ] Crafting/Smelting Recipes
 - [x] Ingots
 - [ ] Metal Blocks
 - [x] Tools & Armor
@@ -21,8 +20,13 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [x] Custom Sounds
 - [ ] Music Discs
 - [ ] Oil
+- [ ] Cave Generation
+- [ ] Structure Generation
 - [ ] Writable Books
+- [ ] Configurable IDs
 - [ ] Multiplayer Support
+- [ ] Slab Placement UI
+- [ ] Old World Block ID Converter
 
 #### Changes from NFC
 - Block ids are completely scrambled, many blocks share ids
