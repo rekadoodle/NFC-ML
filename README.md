@@ -23,7 +23,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [ ] Cave Generation
 - [ ] Structure Generation
 - [ ] Writable Books
-- [ ] Configurable IDs
+- [x] Configurable IDs
 - [ ] Multiplayer Support
 - [ ] Slab Placement UI
 - [ ] Old World Block ID Converter

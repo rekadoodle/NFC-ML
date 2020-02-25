@@ -109,10 +109,10 @@ public class Utils {
 		}
 		else  {
 			missingResources.add(resource);
-			String error = "Missing file " + new File("bin\\minecraft.jar").getAbsolutePath().replace("\\", "/") + resource;
+			String error = "Missing file " + new File("bin\\minecraft.jar").getAbsolutePath().replace("\\", "/") + location;
 			if(System.getProperty("java.class.path").toLowerCase().contains("eclipse"))
 	        {
-				logError(new String[] {error, "Alternate Location " + mod_NFC.class.getClassLoader().getResource("").getPath().replaceFirst("/*$", "") + resource});
+				logError(new String[] {error, "Alternate Location " + mod_NFC.class.getClassLoader().getResource("").getPath().replaceFirst("/*$", "") + location});
 	        }
 			else {
 				logError(error);

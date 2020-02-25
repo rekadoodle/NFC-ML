@@ -1,8 +1,11 @@
 package net.minecraft.src.nfc;
 
+import java.io.File;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
+import net.minecraft.src.forge.Configuration;
 import net.minecraft.src.forge.ForgeHooks;
 import net.minecraft.src.forge.MinecraftForge;
 import net.minecraft.src.forge.MinecraftForgeClient;
@@ -16,10 +19,8 @@ public class Core {
 	public static final Core instance = new Core();
 	public mod_NFC basemod;
 	public SoundManagerNFC soundManager = new SoundManagerNFC();
+	public static Configuration config;
 	
-	public static final int blockID = 150;
-	public static final int itemID = 454 - 256;
-
 	/**
 	 * Generate Props for relevant Items and Blocks
 	 * @see net.minecraft.src.nfc.props.Props
@@ -58,20 +59,31 @@ public class Core {
 	public static final PropsItem.Telescope TELESCOPE = new PropsItem.Telescope("Telescope", 172);
 
 	static {
+		try
+        {
+            config = new Configuration(new File((Minecraft.getMinecraftDir()) + "/config/NFC.cfg"));
+            config.load();
+        }
+        catch(Exception exception)
+        {
+            Utils.logError("Failed to create/access config file at: " + new File((Minecraft.getMinecraftDir()) + "/config/NFC.cfg").getAbsolutePath());
+            config = null;
+        }
+		
 		// Apply props to new item
-		new ItemMulti(itemID, ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM,
+		new ItemMulti(getItemID("multi", 198), ALUMINUM, BISMUTH, COPPER, LEAD, TIN, ZINC, BORON, BRASS, BRONZE, NICKEL, PLATINUM,
 				SILVER, CHROME, COBALT, SILICON, STEEL, TITANIUM, TUNGSTEN, RUBY, SAPPHIRE, EMERALD, OSMIUM,
 				MAGNET, URANIUM, ANTHRACITE);
-		new ItemMulti(itemID + 1, COOKED_EGG, CHEESE, WRENCH, TELESCOPE).setMaxStackSize(1);
+		new ItemMulti(getItemID("multi2", 197), COOKED_EGG, CHEESE, WRENCH, TELESCOPE).setMaxStackSize(1);
 	}
 	
-	public static final ItemRecordNFC RECORD_CHANT = new ItemRecordNFC(555, SoundManagerNFC.CHANT, 181);
-	public static final ItemRecordNFC RECORD_DROOPY = new ItemRecordNFC(556, SoundManagerNFC.DROOPY, 180);
-	public static final ItemRecordNFC RECORD_EMOTION = new ItemRecordNFC(567, SoundManagerNFC.EMOTION, 177);
-	public static final ItemRecordNFC RECORD_BERLIN = new ItemRecordNFC(568, SoundManagerNFC.BERLIN, 178);
-	public static final ItemRecordNFC RECORD_PLEASE = new ItemRecordNFC(569, SoundManagerNFC.PLEASE, 179);
-	public static final ItemRecordNFC RECORD_FRONTIER = new ItemRecordNFC(570, SoundManagerNFC.FRONTIER, 182);
-	public static final ItemRecordNFC RECORD_TWENTYSIX = new ItemRecordNFC(571, SoundManagerNFC.TWENTYSIX, 176);
+	public static final ItemRecordNFC RECORD_CHANT = new ItemRecordNFC(getItemID("record1", 555), SoundManagerNFC.CHANT, 181);
+	public static final ItemRecordNFC RECORD_DROOPY = new ItemRecordNFC(getItemID("record2", 556), SoundManagerNFC.DROOPY, 180);
+	public static final ItemRecordNFC RECORD_EMOTION = new ItemRecordNFC(getItemID("record3", 557), SoundManagerNFC.EMOTION, 177);
+	public static final ItemRecordNFC RECORD_BERLIN = new ItemRecordNFC(getItemID("record4", 558), SoundManagerNFC.BERLIN, 178);
+	public static final ItemRecordNFC RECORD_PLEASE = new ItemRecordNFC(getItemID("record5", 559), SoundManagerNFC.PLEASE, 179);
+	public static final ItemRecordNFC RECORD_FRONTIER = new ItemRecordNFC(getItemID("record6", 560), SoundManagerNFC.FRONTIER, 182);
+	public static final ItemRecordNFC RECORD_TWENTYSIX = new ItemRecordNFC(getItemID("record7", 561), SoundManagerNFC.TWENTYSIX, 176);
 
 	public static final PropsBlock.Ore ORE_COPPER = new PropsBlock.Ore(COPPER, 3.0F, 0);
 	public static final PropsBlock.Ore ORE_TIN = new PropsBlock.Ore(TIN, 3.0F, 1);
@@ -104,10 +116,10 @@ public class Core {
 
 	static {
 		// Apply props to new blocks
-		new BlockMulti(blockID, Material.rock, ORE_COPPER, ORE_TIN, ORE_ZINC, ORE_ALUMINUM, ORE_LEAD, ORE_BISMUTH,
+		new BlockMulti(getBlockID("stone1", 150), Material.rock, ORE_COPPER, ORE_TIN, ORE_ZINC, ORE_ALUMINUM, ORE_LEAD, ORE_BISMUTH,
 				ORE_BORON, ORE_SILVER, ORE_CHROME, ORE_NICKEL, ORE_PLATINUM, ORE_TUNGSTEN, ORE_SILICON, ORE_COBALT,
 				ORE_MAGNETITE, ORE_TITANIUM);
-		new BlockMulti(blockID + 1, Material.rock, ORE_ANTHRACITE, ORE_RUBY, ORE_SAPPHIRE, ORE_EMERALD, ORE_URANINITE,
+		new BlockMulti(getBlockID("stone2", 151), Material.rock, ORE_ANTHRACITE, ORE_RUBY, ORE_SAPPHIRE, ORE_EMERALD, ORE_URANINITE,
 				ORE_OSMIUM, STONE_BLOCK, STONE_BLOCK_OFFSET_XY, STONE_BLOCK_OFFSET_X, STONE_BLOCK_OFFSET_Y, STONE_BRICK,
 				STONE_BRICK_SMALL);
 	}
@@ -128,8 +140,8 @@ public class Core {
 	public static final PropsBlock WINDOW_DOUBLE = new PropsBlock("Double Window", 0.3F, 1.5F, 29);
 	public static final PropsBlock WINDOW = new PropsBlock("Window", 0.3F, 1.5F, 30);
 
-	public static final Block BRICKOVEN_IDLE = new BlockBrickOven(230, false, 32);
-	public static final Block BRICKOVEN_ACTIVE = new BlockBrickOven(231, true, 34);
+	public static final Block BRICKOVEN_IDLE = new BlockBrickOven(getBlockID("brickOvenIdle", 152), false, 32);
+	public static final Block BRICKOVEN_ACTIVE = new BlockBrickOven(getBlockID("brickOvenActive", 153), true, 34);
 
 	public String version() {
 		return "v0.27";
@@ -168,11 +180,16 @@ public class Core {
 		int renderID  = ModLoader.getUniqueBlockModelID(basemod, true);
 
 		//Apply props to new blocks
-		new BlockMultiCustomRender(blockID + 2, renderID, Material.rock, STONE_SLAB, STONE_PLATED, BRICK_SLAB);
-		new BlockMultiCustomRender(blockID + 3, renderID, Material.wood, PLANKS_SLAB, PLANKS_STAIRS);
-		new BlockMultiCustomRender(blockID + 4, renderID, Material.rock, COBBLE_SLAB, SANDSTONE_SLAB);
-		new BlockMultiCustomRender(blockID + 5, renderID, Material.rock, SANDSTONE_STAIRS, BRICK_STAIRS);
-		new BlockMultiCustomRender(blockID + 6, renderID, Material.rock, STONE_BRICK_STAIRS, COBBLE_STAIRS);
+		new BlockMultiCustomRender(getBlockID("stoneSlab", 154), renderID, Material.rock, STONE_SLAB, STONE_PLATED, BRICK_SLAB);
+		new BlockMultiCustomRender(getBlockID("woodSlab", 155), renderID, Material.wood, PLANKS_SLAB, PLANKS_STAIRS);
+		new BlockMultiCustomRender(getBlockID("cobbleSlab", 156), renderID, Material.rock, COBBLE_SLAB, SANDSTONE_SLAB);
+		new BlockMultiCustomRender(getBlockID("brickStair", 157), renderID, Material.rock, SANDSTONE_STAIRS, BRICK_STAIRS);
+		new BlockMultiCustomRender(getBlockID("stoneBrickStair", 158), renderID, Material.rock, STONE_BRICK_STAIRS, COBBLE_STAIRS);
+		
+		if(config != null)
+        {
+            config.save();
+        }
 		
 		//Override vanilla glass block
 		Block glass = new BlockMultiGlass(Utils.clearBlockID(Block.glass), renderID, Material.glass, GLASS, WINDOW_LARGE, WINDOW_DOUBLE, WINDOW);
@@ -627,6 +644,25 @@ public class Core {
 			(new WorldGenMinableNFC(ORE_SAPPHIRE, 1)).generate(world, rand, genX, genY, genZ);
 		}
     }
+	
+	public static int getBlockID(String name, int defaultID)
+    {
+        if(config == null)
+        {
+            return defaultID;
+        }
+        return Integer.parseInt(config.getOrCreateIntProperty(name, Configuration.BLOCK_PROPERTY, defaultID).value);
+    }
+
+    public static int getItemID(String name, int defaultID)
+    {
+        if(config == null)
+        {
+            return defaultID;
+        }
+        return Integer.parseInt(config.getOrCreateIntProperty(name, Configuration.ITEM_PROPERTY, defaultID + 256).value) - 256;
+    }
+
 
 	public void modsLoaded() {
 		Utils.modsLoaded(basemod);

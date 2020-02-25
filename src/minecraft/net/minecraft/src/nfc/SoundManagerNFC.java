@@ -74,7 +74,9 @@ public class SoundManagerNFC {
 	
 	public void addSound(String audioName) 
 	{
-		this.addAudio(new StringBuilder().append("nfc/").append(audioName).toString(), soundPool);
+		String soundName = new StringBuilder().append("nfc/").append(audioName).toString();
+		String resourcePath = new StringBuilder().append("sound/").append(audioName).toString();
+		this.addAudio(soundName, soundPool, resourcePath);
 	}
 	
 	public String getSound(String audioName) {
