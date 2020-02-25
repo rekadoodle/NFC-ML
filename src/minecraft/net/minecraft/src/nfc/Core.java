@@ -8,6 +8,7 @@ import net.minecraft.src.forge.MinecraftForge;
 import net.minecraft.src.forge.MinecraftForgeClient;
 import net.minecraft.src.nfc.block.*;
 import net.minecraft.src.nfc.item.ItemMulti;
+import net.minecraft.src.nfc.item.ItemRecordNFC;
 import net.minecraft.src.nfc.props.*;
 
 public class Core {
@@ -64,7 +65,13 @@ public class Core {
 		new ItemMulti(itemID + 1, COOKED_EGG, CHEESE, WRENCH, TELESCOPE).setMaxStackSize(1);
 	}
 	
-	
+	public static final ItemRecordNFC RECORD_CHANT = new ItemRecordNFC(555, SoundManagerNFC.CHANT, 181);
+	public static final ItemRecordNFC RECORD_DROOPY = new ItemRecordNFC(556, SoundManagerNFC.DROOPY, 180);
+	public static final ItemRecordNFC RECORD_EMOTION = new ItemRecordNFC(567, SoundManagerNFC.EMOTION, 177);
+	public static final ItemRecordNFC RECORD_BERLIN = new ItemRecordNFC(568, SoundManagerNFC.BERLIN, 178);
+	public static final ItemRecordNFC RECORD_PLEASE = new ItemRecordNFC(569, SoundManagerNFC.PLEASE, 179);
+	public static final ItemRecordNFC RECORD_FRONTIER = new ItemRecordNFC(570, SoundManagerNFC.FRONTIER, 182);
+	public static final ItemRecordNFC RECORD_TWENTYSIX = new ItemRecordNFC(571, SoundManagerNFC.TWENTYSIX, 176);
 
 	public static final PropsBlock.Ore ORE_COPPER = new PropsBlock.Ore(COPPER, 3.0F, 0);
 	public static final PropsBlock.Ore ORE_TIN = new PropsBlock.Ore(TIN, 3.0F, 1);

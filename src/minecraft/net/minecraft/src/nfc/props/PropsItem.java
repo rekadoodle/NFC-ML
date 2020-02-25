@@ -55,7 +55,7 @@ public class PropsItem extends Props {
 		
 		public boolean onItemUseFirst(ItemStack ist, EntityPlayer player, World world, int x, int y, int z, int side) {
 			Block block = Block.blocksList[world.getBlockId(x, y, z)];
-			world.playSoundAtEntity(player, Core.instance.soundManager.getSound(SoundManagerNFC.wrench), 0.5F, 0.825F + (new Random().nextFloat() * 0.05f));
+			world.playSoundAtEntity(player, Core.instance.soundManager.getSound(SoundManagerNFC.WRENCH), 0.5F, 0.825F + (new Random().nextFloat() * 0.05f));
 			if(block instanceof IWrenchable) {
 				return ((IWrenchable)block).onWrenched(world, x, y, z);
 			}

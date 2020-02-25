@@ -18,7 +18,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [x] Telescope
 - [x] Wrench
 - [x] Custom Sounds
-- [ ] Music Discs
+- [x] Music Discs
 - [ ] Oil
 - [ ] Cave Generation
 - [ ] Structure Generation
