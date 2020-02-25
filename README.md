@@ -47,8 +47,8 @@ Follow this if you just want to play the mod. There are no releases yet, but you
    3. Follow the steps within /docs/README-MCP.TXT
    4. Download [Forge Source](https://mcarchive.net/mods/minecraftforge?gvsn=b1.7.3) and follow the steps in the README.TXT
    5. Download [mine_diver's Fixed Forge patch](http://www.mediafire.com/file/kmf47og8hf1c7ib) and extract it into the root of your MCP folder.
-2. Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract the src folder into the root of your MCP folder.
-3. Delete any packages within the net.minecraft.src.references package that you do not have installed to remove any errors.
+2. Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract the contents of the repo folder into the root of your MCP folder.
+3. Delete any packages within the nfc.references package that you do not have installed to remove any errors.
 
 ## License
 
