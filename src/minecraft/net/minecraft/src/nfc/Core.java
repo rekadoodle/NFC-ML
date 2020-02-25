@@ -132,7 +132,7 @@ public class Core {
 	public static final Block BRICKOVEN_ACTIVE = new BlockBrickOven(231, true, 34);
 
 	public String version() {
-		return "DEV v0.24";
+		return "v0.27";
 	}
 
 	// Name for mine_diver's ModMenu

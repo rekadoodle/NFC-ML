@@ -38,7 +38,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 Follow this if you just want to play the mod. There are no releases yet, but you can play the live development version.
 1. Install [ModLoader](https://mcarchive.net/mods/modloader?gvsn=b1.7.3) 
 2. Install [Forge](https://mcarchive.net/mods/minecraftforge?gvsn=b1.7.3)
-3. Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract it into your .minecraft/mods folder
+3. ~~Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract it into your .minecraft/mods folder~~ Binaries coming soon.
 
 ## Development Setup
 1. Setup an MCP workspace with Forge
@@ -48,8 +48,7 @@ Follow this if you just want to play the mod. There are no releases yet, but you
    4. Download [Forge Source](https://mcarchive.net/mods/minecraftforge?gvsn=b1.7.3) and follow the steps in the README.TXT
    5. Download [mine_diver's Fixed Forge patch](http://www.mediafire.com/file/kmf47og8hf1c7ib) and extract it into the root of your MCP folder.
 2. Download the [master branch](https://github.com/rekadoodle/NFC-ML/archive/master.zip) and extract the src folder into the root of your MCP folder.
-3. OPTIONAL: To get sounds/textures working, put the nfc folder into `/jars/bin/minecraft.jar` or `/eclipse/Client/bin`
-4. Delete any packages within the net.minecraft.src.references package that you do not have installed to remove any errors.
+3. Delete any packages within the net.minecraft.src.references package that you do not have installed to remove any errors.
 
 ## License
 
