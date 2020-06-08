@@ -1,7 +1,7 @@
 package net.minecraft.src.nfc.props;
 
 import net.minecraft.src.*;
-import net.minecraft.src.nfc.Core;
+import net.minecraft.src.nfc.NFC;
 import net.minecraft.src.nfc.Utils;
 import net.minecraft.src.nfc.item.*;
 
@@ -38,16 +38,16 @@ public class PropsItemToolMaterial extends PropsItem {
 	}
 	
 	public int setupTools(int id) {
-		this.spade = new ItemSpadeNFC(Core.getItemID("spade" + NAME, id++), this);
-		this.pickaxe = new ItemPickaxeNFC(Core.getItemID("pickaxe" + NAME, id++), this);
-		this.axe = new ItemAxeNFC(Core.getItemID("axe" + NAME, id++), this);
-		this.sword = new ItemSwordNFC(Core.getItemID("sword" + NAME, id++), this);
-		this.hoe = new ItemHoeNFC(Core.getItemID("hoe" + NAME, id++), this);
+		this.spade = new ItemSpadeNFC(NFC.getItemID("spade" + NAME, id++), this);
+		this.pickaxe = new ItemPickaxeNFC(NFC.getItemID("pickaxe" + NAME, id++), this);
+		this.axe = new ItemAxeNFC(NFC.getItemID("axe" + NAME, id++), this);
+		this.sword = new ItemSwordNFC(NFC.getItemID("sword" + NAME, id++), this);
+		this.hoe = new ItemHoeNFC(NFC.getItemID("hoe" + NAME, id++), this);
 		if(this.HAS_ARMOR) {
-			this.helmet = new ItemArmorNFC(Core.getItemID("helmet" + NAME, id++), this, 0);
-			this.chestPiece = new ItemArmorNFC(Core.getItemID("chestpiece" + NAME, id++), this, 1);
-			this.leggings = new ItemArmorNFC(Core.getItemID("leggings" + NAME, id++), this, 2);
-			this.boots = new ItemArmorNFC(Core.getItemID("boots" + NAME, id++), this, 3);
+			this.helmet = new ItemArmorNFC(NFC.getItemID("helmet" + NAME, id++), this, 0);
+			this.chestPiece = new ItemArmorNFC(NFC.getItemID("chestpiece" + NAME, id++), this, 1);
+			this.leggings = new ItemArmorNFC(NFC.getItemID("leggings" + NAME, id++), this, 2);
+			this.boots = new ItemArmorNFC(NFC.getItemID("boots" + NAME, id++), this, 3);
 		}
 		return id;
 	}

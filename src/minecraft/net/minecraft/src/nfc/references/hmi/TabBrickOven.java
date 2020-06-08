@@ -5,7 +5,7 @@ import java.util.List;
 
 import hmi.tabs.TabSmelting;
 import net.minecraft.src.*;
-import net.minecraft.src.nfc.Core;
+import net.minecraft.src.nfc.NFC;
 import net.minecraft.src.nfc.BrickOvenManager;
 import net.minecraft.src.nfc.Utils;
 
@@ -16,7 +16,7 @@ public class TabBrickOven extends TabSmelting {
 	private final List<BrickOvenManager.Fuel> fuelList = new Utils.EasyField<List<BrickOvenManager.Fuel>>(BrickOvenManager.class, "fuels").get(BrickOvenManager.instance);
 	
 	public TabBrickOven(BaseMod tabCreator) {
-		super(tabCreator, 11, Utils.getResource("oven.png"), 102, 92, 36, 15, Core.BRICKOVEN_IDLE, 0);
+		super(tabCreator, 11, Utils.getResource("oven.png"), 102, 92, 36, 15, NFC.BRICKOVEN_IDLE, 0);
 		
 		int count = 0;
 		for (int y = 0; y < 3; y++) {

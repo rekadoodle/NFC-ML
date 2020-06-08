@@ -54,16 +54,16 @@ public class BrickOvenManager {
 	}
 	
 	public BrickOvenManager() {
-		this.addShapelessRecipe(Core.BRASS.getItemStack(6), 1600, Core.COPPER.getItemStack(3), Core.ZINC.getItemStack(3));
-		this.addShapelessRecipe(Core.BRONZE.getItemStack(6), 1600, Core.COPPER.getItemStack(5), Core.TIN.getItemStack());
-		this.addShapelessRecipe(Core.STEEL.getItemStack(8), 6400, Core.CHROME.getItemStack(), new ItemStack(Item.ingotIron, 7));
-		this.addShapelessRecipe(Core.TUNGSTEN.getItemStack(), 200, Core.ORE_TUNGSTEN.getItemStack());
-		this.addShapelessRecipe(Core.TITANIUM.getItemStack(), 200, Core.ORE_TITANIUM.getItemStack());
+		this.addShapelessRecipe(NFC.BRASS.getItemStack(6), 1600, NFC.COPPER.getItemStack(3), NFC.ZINC.getItemStack(3));
+		this.addShapelessRecipe(NFC.BRONZE.getItemStack(6), 1600, NFC.COPPER.getItemStack(5), NFC.TIN.getItemStack());
+		this.addShapelessRecipe(NFC.STEEL.getItemStack(8), 6400, NFC.CHROME.getItemStack(), new ItemStack(Item.ingotIron, 7));
+		this.addShapelessRecipe(NFC.TUNGSTEN.getItemStack(), 200, NFC.ORE_TUNGSTEN.getItemStack());
+		this.addShapelessRecipe(NFC.TITANIUM.getItemStack(), 200, NFC.ORE_TITANIUM.getItemStack());
 		
 		this.addFuel(new ItemStack(Block.planks), 100);
 		this.addFuel(new ItemStack(Item.coal), 1600);
 		this.addFuel(new ItemStack(Item.coal, 1, 1), 800);
-		this.addFuel(Core.ANTHRACITE.getItemStack(), 6400);
+		this.addFuel(NFC.ANTHRACITE.getItemStack(), 6400);
 	}
 
 	public void addShapelessRecipe(ItemStack result, int timeToSmelt, ItemStack... recipeItems) {

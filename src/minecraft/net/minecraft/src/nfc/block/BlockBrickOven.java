@@ -31,7 +31,7 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 
 	@Override
 	public int idDropped(int i, Random random) {
-		return Core.BRICKOVEN_IDLE.blockID;
+		return NFC.BRICKOVEN_IDLE.blockID;
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public class BlockBrickOven extends BlockFurnace implements ITextureProvider {
 		TileEntity tileentity = world.getBlockTileEntity(i, j, k);
 		parentKeepInventoryField.set(true);
 		if (isActive) {
-			world.setBlockWithNotify(i, j, k, Core.BRICKOVEN_ACTIVE.blockID);
+			world.setBlockWithNotify(i, j, k, NFC.BRICKOVEN_ACTIVE.blockID);
 		} else {
-			world.setBlockWithNotify(i, j, k, Core.BRICKOVEN_IDLE.blockID);
+			world.setBlockWithNotify(i, j, k, NFC.BRICKOVEN_IDLE.blockID);
 		}
 		parentKeepInventoryField.set(false);
 		world.setBlockMetadataWithNotify(i, j, k, l);

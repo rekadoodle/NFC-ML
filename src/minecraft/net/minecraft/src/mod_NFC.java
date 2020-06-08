@@ -9,56 +9,56 @@ import net.minecraft.src.nfc.block.*;
 public class mod_NFC extends BaseMod {
 
 	public mod_NFC() {
-		Core.instance.init(this);
+		NFC.instance.init(this);
 	}
 	
 	@Override
 	public String Version() {
-		return Core.instance.version();
+		return NFC.instance.version();
 	}
 	
 	@Override
 	public boolean OnTickInGame(Minecraft mc)
     {
-		Core.instance.onTickIngame();
+		NFC.instance.onTickIngame();
         return true;
     }
 	
 	@Override
 	public boolean RenderWorldBlock(RenderBlocks renderblocks, IBlockAccess iblockaccess, int x, int y, int z, Block block, int renderType)
     {
-		Core.instance.renderWorldBlock(renderblocks, (BlockMultiTexture) block, iblockaccess.getBlockMetadata(x, y, z), x, y, z);
+		NFC.instance.renderWorldBlock(renderblocks, (BlockMultiTexture) block, iblockaccess.getBlockMetadata(x, y, z), x, y, z);
         return true;
     }
 	
 	@Override
 	public void RenderInvBlock(RenderBlocks renderblocks, Block block, int metadata, int renderType)
     {
-		Core.instance.renderInvBlock(renderblocks, (BlockMultiTexture) block, metadata);
+		NFC.instance.renderInvBlock(renderblocks, (BlockMultiTexture) block, metadata);
     }
 	
 	@Override
 	public void GenerateSurface(World world, Random random, int x, int z)
     {
-		Core.instance.generateSurface(world, random, x, z);
+		NFC.instance.generateSurface(world, random, x, z);
     }
 	
 	@Override
 	public void ModsLoaded()
     {
-		Core.instance.modsLoaded();
+		NFC.instance.modsLoaded();
     }
 	
 	//Info for mine_diver's mod menu
 	public String Description() {
-		return Core.instance.description();
+		return NFC.instance.description();
 	}
 	
 	public String Name() {
-		return Core.instance.name();
+		return NFC.instance.name();
 	}
 	
 	public String Icon() {
-		return Core.instance.icon();
+		return NFC.instance.icon();
 	}
 }

@@ -14,9 +14,9 @@ import net.minecraft.src.nfc.item.ItemMulti;
 import net.minecraft.src.nfc.item.ItemRecordNFC;
 import net.minecraft.src.nfc.props.*;
 
-public class Core {
+public class NFC {
 
-	public static final Core instance = new Core();
+	public static final NFC instance = new NFC();
 	public mod_NFC basemod;
 	public SoundManagerNFC soundManager = new SoundManagerNFC();
 	public static Configuration config;
