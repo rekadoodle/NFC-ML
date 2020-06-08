@@ -90,7 +90,7 @@ public class Utils {
 	
 	public static String getResource(String resource, String backupResource) {
 		if(resourceExists(resource)) {
-			loadedResources.get(resource);
+			return loadedResources.get(resource);
 		}
 		return new StringBuilder().append(resourcesFolder).append(backupResource).toString();
 	}
@@ -139,11 +139,19 @@ public class Utils {
 		}
 	}
 	
+	public static boolean nmsClassExists(String className) {
+		return classExists(className) || classExists("net.minecraft.src." + className);
+	}
+	
+	public static boolean isModLoaded(String modName) {
+		return ModLoader.isModLoaded(modName) || ModLoader.isModLoaded("net.minecraft.src." + modName);
+	}
+	
 	public static void modsLoaded(BaseMod basemod) {
-		if(ModLoader.isModLoaded(mod_NFC.class.getPackage().getName() + ".mod_HowManyItems")) {
+		if(isModLoaded("mod_HowManyItems")) {
 			((HandlerHMI) getHandler("hmi.ConcreteHandlerHMI")).init(basemod);
 		}
-		if(ModLoader.isModLoaded(mod_NFC.class.getPackage().getName() + ".mod_BetaTweaks")) {
+		if(isModLoaded("mod_BetaTweaks")) {
 			betatweaksHandler = (HandlerBetaTweaks) getHandler("betatweaks.ConcreteHandlerBetaTweaks");
 		}
 	}
