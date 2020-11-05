@@ -9,7 +9,7 @@ A WIP rewrite of Zowja's mod [New Frontier Craft](http://newfrontiercraft.net/) 
 - [ ] Metal Blocks
 - [x] Tools & Armor
 - [x] Vanilla tools re-balance
-- [ ] Textures
+- [X] Textures
 - [x] Stone Blocks
 - [x] Windows
 - [x] Slabs/Stairs
